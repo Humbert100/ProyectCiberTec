@@ -3,6 +3,8 @@
     --secundario: #001547;
     --terciario: rgb(187, 170, 170);
     --negro: black;
+    --etexto: #aaa;
+    --revisado: rgb(92, 144, 223);
 }
 
 html{
@@ -392,7 +394,7 @@ h2{
   background-image: url(../img/register.png);
   background-repeat: no-repeat;
   background-size: cover;
-  height: 1060px;
+  height: 860px;
 }
 
 .register{
@@ -400,7 +402,8 @@ h2{
   border-radius: 2rem;
   margin-right: 15rem;
   margin-left: 20rem;
-  display: flex;
+  margin-top: 60px;
+  display: block;
   font-size: 16px;
   font-family: 'Krub',sans-serif;
   padding: 2rem;
@@ -432,31 +435,1017 @@ h2{
   
 }
 
-.name input{
+/*INPUT NOMBRE Y APELLIDOS SIN ESTAR SELECCIONADO*/
+.name input[type=text]{
   width: 48%;
+  border: 2px solid var(--etexto);
+  border-radius: 4px;
+  margin: 8px 5px;
+  outline:none;
+  padding: 12px;
+  box-sizing: border-box;
+  
+
+}
+
+/*INPUT NOMBRE Y APELLIDOS AL ESTAR SELECCIONADO*/
+.name input[type=text]:focus{
+  border-color: var(--primario);
+  box-shadow: 0 0 10px 0 var(--primario);
+}
+
+/*INPUT EMAIL SIN ESTAR SELECCIONADO*/
+.correo input[type=email]{
+  width: 98%;
+  border: 2px solid var(--etexto);
+  border-radius: 4px;
+  margin: 30px -2px; /*ARRIBA E IZQUIERDA*/
+  outline:none;
+  padding: 12px;
   box-sizing: border-box;
 }
 
-.name input[type=text] {
-  padding: 10px;
-  margin:15px 5px; 
-  box-shadow:0 0 15px 4px rgba(233, 227, 227, 0.06);
+/*INPUT NOMBRE Y APELLIDOS AL ESTAR SELECCIONADO*/
+.correo input[type=email]:focus{
+  border-color: var(--primario);
+  box-shadow: 0 0 10px 0 var(--primario);
 }
 
-.name .border-customized-input {
-  border: 200px solid rgb(129, 48, 48);
+.correo p{
+  margin-top: -23px;
+  font-size: 17px;
+  font-weight: 540;
 }
 
-.name .border-removed-input {
-  border: 0;
+/*INPUT CONTRASEÑA Y CONFIRMACIÓN AL NO ESTAR SELECCIONADO*/
+.contrasenia input[type=password]{
+  width: 48%;
+  border: 2px solid var(--etexto);
+  border-radius: 4px;
+  margin: 8px 5px;
+  outline:none;
+  padding: 12px;
+  box-sizing: border-box;
+}
+/*INPUT CONTRASEÑA Y CONFIRMACIÓN AL ESTAR SELECCIONADO*/
+.contrasenia input[type=password]:focus{
+  border-color: var(--primario);
+  box-shadow: 0 0 10px 0 var(--primario);
 }
 
-.name .border-bottom-input {
-  border:0; 
-  border-bottom:1px solid rgb(72, 41, 41);
+.contrasenia p{
+  margin-top: -4px;
+  font-size: 17px;
+  font-weight: 540;
+}
+
+/*INPUT CONTRASEÑA Y CONFIRMACIÓN AL ESTAR SELECCIONADO*/
+.condiciones input[type=checkbox] + label{
+  display:block;
+  margin: 2rem;
+  cursor: pointer;
+  padding: 0.2rem;
+}
+
+.condiciones input[type=checkbox]{
+  display: none;
+}
+
+.condiciones input[type=checkbox] + label:before{
+  content: "\2714";
+  border: 0.1rem solid var(--primario);
+  border-radius: 0.2rem;
+  width: 1rem;
+  height: 1rem;
+  padding-left: 0.2rem;
+  padding-bottom: 0.3rem;
+  margin-right: 0.9rem;
+  vertical-align: bottom;
+  color: transparent;
+  transition: .2s;
+}
+
+.condiciones input[type=checkbox] + label:active:before{
+  transform: scale(0);
+}
+
+.condiciones input[type=checkbox]:checked + label:before{
+  background-color: var(--revisado);
+  border-color: var(--revisado);
+  color: #fff;
+}
+
+.sesion input[type=submit]{
+  width: 40%;
+  border-radius: .6rem;
+  padding: 18px;
+  font-size: 18px;
+  margin-top: 20px;
+  margin-left: 25px;
+  border: none;
+  cursor: pointer;
+}
+
+#first{
+  background: var(--etexto);
+  color: var(--primario);
+  font-weight: 600;
+  opacity: .9;
+}
+
+.sesion input[type=button]{
+  width: 40%;
+  border-radius: .6rem;
+  padding: 18px;
+  font-size: 18px;
+  margin-top: 20px;
+  margin-left: 25px;
+  border: none;
+  cursor: pointer;
+}
+
+#second{
+  background: var(--secundario);
+  color: var(--primario);
+  font-weight: 600;
+  opacity: .9;
+}
+
+.backgroundregister img{
+  width: 150px;
+  margin-left: 100px;
+  margin-top: -190px;
+  position: fixed;
+}
+
+.backgroundregister h1{
+  font-family: 'Share Tech', sans-serif;
+  position: fixed;
+  margin-left: 260px;
+  margin-top: -130px;
+}
+
+@media (min-width: 1800px){
+  .backgroundregister{
+    background-image: url(../img/register.png);
+    background-repeat: no-repeat;
+    background-size:cover;
+    height: 908px;
+  }
+  .register{
+    outline: 8px ridge rgba(72, 218, 241, 0.6);
+    border-radius: 2rem;
+    margin-right: 50rem;
+    margin-left: 50rem;
+    display:block;
+    font-size: 22px;
+    font-family: 'Krub',sans-serif;
+    padding: 6rem;
+  }
+  
+  .backgroundregister{
+    padding-top: 20rem;
+    align-items:center;
+    justify-content:end;
+  }
+  
+  .title{
+    font-size: 50px;
+    font-weight: bold;
+  }
+  
+  .title span{
+    font-size: 30px;
+    font-weight:100;
+    align-items:flex-end;
+    justify-content:space-between;
+  }
+  
+  .name{
+    margin-top: 20px;
+    
+  }
+  
+  /*INPUT NOMBRE Y APELLIDOS SIN ESTAR SELECCIONADO*/
+  .name input[type=text]{
+    width: 48%;
+    border: 2px solid var(--etexto);
+    border-radius: 4px;
+    margin: 8px 5px;
+    outline:none;
+    padding: 20px;
+    box-sizing: border-box;
+    
+  
+  }
+  
+  /*INPUT NOMBRE Y APELLIDOS AL ESTAR SELECCIONADO*/
+  .name input[type=text]:focus{
+    border-color: var(--primario);
+    box-shadow: 0 0 10px 0 var(--primario);
+  }
+  
+  /*INPUT EMAIL SIN ESTAR SELECCIONADO*/
+  .correo input[type=email]{
+    width: 98%;
+    border: 2px solid var(--etexto);
+    border-radius: 4px;
+    margin: 30px -2px; /*ARRIBA E IZQUIERDA*/
+    outline:none;
+    padding: 19px;
+    box-sizing: border-box;
+  }
+  
+  /*INPUT NOMBRE Y APELLIDOS AL ESTAR SELECCIONADO*/
+  .correo input[type=email]:focus{
+    border-color: var(--primario);
+    box-shadow: 0 0 10px 0 var(--primario);
+  }
+  
+  .correo p{
+    margin-top: -23px;
+    font-size: 22px;
+    font-weight: 540;
+  }
+  
+  /*INPUT CONTRASEÑA Y CONFIRMACIÓN AL NO ESTAR SELECCIONADO*/
+  .contrasenia input[type=password]{
+    width: 48%;
+    border: 2px solid var(--etexto);
+    border-radius: 4px;
+    margin: 8px 5px;
+    outline:none;
+    padding: 19px;
+    box-sizing: border-box;
+  }
+  /*INPUT CONTRASEÑA Y CONFIRMACIÓN AL ESTAR SELECCIONADO*/
+  .contrasenia input[type=password]:focus{
+    border-color: var(--primario);
+    box-shadow: 0 0 10px 0 var(--primario);
+  }
+  
+  .contrasenia p{
+    margin-top: -4px;
+    font-size: 22px;
+    font-weight: 540;
+  }
+  
+  /*INPUT CONTRASEÑA Y CONFIRMACIÓN AL ESTAR SELECCIONADO*/
+  .condiciones input[type=checkbox] + label{
+    display:block;
+    margin: 2rem;
+    cursor: pointer;
+    padding: 0.2rem;
+  }
+  
+  .condiciones input[type=checkbox]{
+    display: none;
+  }
+  
+  .condiciones input[type=checkbox] + label:before{
+    content: "\2714";
+    border: 0.1rem solid var(--primario);
+    border-radius: 0.2rem;
+    width: 5rem;
+    height: 5rem;
+    padding-left: 0.5rem;
+    padding-bottom: 0.6rem;
+    margin-right: 0.9rem;
+    vertical-align: bottom;
+    color: transparent;
+    transition: .2s;
+  }
+  
+  .condiciones input[type=checkbox] + label:active:before{
+    transform: scale(0);
+  }
+  
+  .condiciones input[type=checkbox]:checked + label:before{
+    background-color: var(--revisado);
+    border-color: var(--revisado);
+    color: #fff;
+  }
+  
+  .sesion input[type=submit]{
+    width: 40%;
+    border-radius: .6rem;
+    padding: 26px;
+    font-size: 22px;
+    margin-top: 20px;
+    margin-left: 25px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #first{
+    background: var(--etexto);
+    color: var(--primario);
+    font-weight: 600;
+    opacity: .9;
+  }
+
+  .sesion input[type=button]{
+    width: 40%;
+    border-radius: .6rem;
+    padding: 18px;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-left: 25px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #second{
+    background: var(--secundario);
+    color: var(--primario);
+    font-weight: 600;
+    opacity: .9;
+  } 
+
+  .backgroundregister img{
+    width: 200px;
+    margin-left: 100px;
+    margin-top: -190px;
+    position: fixed;
+  }
+  
+  .backgroundregister h1{
+    font-family: 'Share Tech', sans-serif;
+    position: fixed;
+    margin-left: 310px;
+    margin-top: -110px;
+  }
 }
 
 
+/*INICIO DE SESION*/
+.inicio{
+  outline: 8px ridge rgba(72, 218, 241, 0.6);
+  border-radius: 2rem;
+  margin-right: 15rem;
+  margin-left: 20rem;
+  margin-top: 60px;
+  display: block;
+  font-size: 16px;
+  font-family: 'Krub',sans-serif;
+  padding: 2rem;
+}
 
+.backgroundregister{
+  padding-top: 23rem;
+  position: relative;
+  display: block;
+  align-items:flex-end;
+  justify-content:space-between;
+}
 
+.inicio .title{
+  font-size: 34px;
+  font-weight: bold;
+  text-align: center;
+}
 
+.inicio .title span{
+  font-size: 20px;
+  font-weight:100;
+  align-items:flex-end;
+  justify-content:space-between;
+}
+
+/*INPUT EMAIL SIN ESTAR SELECCIONADO*/
+.inicio .correo input[type=email]{
+  width: 98%;
+  border: 2px solid var(--etexto);
+  border-radius: 4px;
+  margin: 90px 10px 20px; /*ARRIBA E IZQUIERDA*/
+  outline:none;
+  padding: 18px;
+  box-sizing: border-box;
+}
+
+/*INPUT NOMBRE Y APELLIDOS AL ESTAR SELECCIONADO*/
+.inicio .correo input[type=email]:focus{
+  border-color: var(--primario);
+  box-shadow: 0 0 10px 0 var(--primario);
+}
+
+/*INPUT CONTRASEÑA Y CONFIRMACIÓN AL NO ESTAR SELECCIONADO*/
+.inicio .contrasenia input[type=password]{
+  width: 98%;
+  border: 2px solid var(--etexto);
+  border-radius: 4px;
+  margin: 20px 5px;
+  outline:none;
+  padding: 18px;
+  box-sizing: border-box;
+}
+/*INPUT CONTRASEÑA Y CONFIRMACIÓN AL ESTAR SELECCIONADO*/
+.inicio .contrasenia input[type=password]:focus{
+  border-color: var(--primario);
+  box-shadow: 0 0 10px 0 var(--primario);
+}
+
+.inicio .sesion input[type=submit]{
+  width: 40%;
+  border-radius: .6rem;
+  padding: 18px;
+  font-size: 18px;
+  margin-top: 50px;
+  margin-left: 160px;
+  border: none;
+  cursor: pointer;
+}
+
+.inicio #first{
+  background: var(--etexto);
+  color: var(--primario);
+  font-weight: 600;
+  opacity: .9;
+}
+
+.inicio .sesion input[type=button]{
+  width: 40%;
+  border-radius: .6rem;
+  padding: 18px;
+  font-size: 18px;
+  margin-top: 50px;
+  margin-left: 160px;
+  border: none;
+  cursor: pointer;
+}
+
+.inicio #second{
+  background: var(--secundario);
+  color: var(--primario);
+  font-weight: 600;
+  opacity: .9;
+}
+
+.inicio .backgroundregister img{
+  width: 150px;
+  margin-left: 100px;
+  margin-top: -190px;
+  position: fixed;
+}
+
+.inicio .backgroundregister h1{
+  font-family: 'Share Tech', sans-serif;
+  position: fixed;
+  margin-left: 260px;
+  margin-top: -130px;
+}
+
+@media (min-width: 1800px){
+  .backgroundregister{
+    background-image: url(../img/register.png);
+    background-repeat: no-repeat;
+    background-size:cover;
+    height: 908px;
+  }
+  .inicio{
+    outline: 8px ridge rgba(72, 218, 241, 0.6);
+    border-radius: 2rem;
+    margin-right: 50rem;
+    margin-left: 50rem;
+    display:block;
+    font-size: 22px;
+    font-family: 'Krub',sans-serif;
+    padding: 6rem;
+  }
+  
+  .inicio .backgroundregister{
+    padding-top: 20rem;
+    align-items:center;
+    justify-content:end;
+  }
+  
+  .inicio .title{
+    font-size: 50px;
+    font-weight: bold;
+  }
+  
+  .inicio .title span{
+    font-size: 30px;
+    font-weight:100;
+    align-items:flex-end;
+    justify-content:space-between;
+  }
+  
+  /*INPUT EMAIL SIN ESTAR SELECCIONADO*/
+  .inicio .correo input[type=email]{
+    width: 98%;
+    border: 2px solid var(--etexto);
+    border-radius: 4px;
+    margin: 80px 10px 30px; /*ARRIBA E IZQUIERDA*/
+    outline:none;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  
+  /*INPUT NOMBRE Y APELLIDOS AL ESTAR SELECCIONADO*/
+  .inicio .correo input[type=email]:focus{
+    border-color: var(--primario);
+    box-shadow: 0 0 10px 0 var(--primario);
+  }
+  
+  /*INPUT CONTRASEÑA Y CONFIRMACIÓN AL NO ESTAR SELECCIONADO*/
+  .inicio .contrasenia input[type=password]{
+    width: 98%;
+    border: 2px solid var(--etexto);
+    border-radius: 4px;
+    margin: 8px 5px;
+    outline:none;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  /*INPUT CONTRASEÑA Y CONFIRMACIÓN AL ESTAR SELECCIONADO*/
+  .inicio .contrasenia input[type=password]:focus{
+    border-color: var(--primario);
+    box-shadow: 0 0 10px 0 var(--primario);
+  }
+  
+  .inicio .sesion input[type=submit]{
+    width: 40%;
+    border-radius: .6rem;
+    padding: 26px;
+    font-size: 22px;
+    margin-top: 80px;
+    margin-left: 330px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .inicio #first{
+    background: var(--etexto);
+    color: var(--primario);
+    font-weight: 600;
+    opacity: .9;
+  }
+
+  .inicio .sesion input[type=button]{
+    width: 40%;
+    border-radius: .6rem;
+    padding: 26px;
+    font-size: 22px;
+    margin-top: 80px;
+    margin-left: 330px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .inicio #second{
+    background: var(--secundario);
+    color: var(--primario);
+    font-weight: 600;
+    opacity: .9;
+  } 
+
+  .backgroundregister img{
+    width: 200px;
+    margin-left: 100px;
+    margin-top: -190px;
+    position: fixed;
+  }
+  
+  .backgroundregister h1{
+    font-family: 'Share Tech', sans-serif;
+    position: fixed;
+    margin-left: 310px;
+    margin-top: -110px;
+  }
+}
+
+/*PANTALLA DE CONFIRMACIÓN EMAIl*/
+.backgroundconf{
+  background-image: url(../img/confirmacion.png);
+  background-repeat: no-repeat;
+  background-size:cover;
+  height: 888px;
+  padding-top: 20rem;
+  align-items:center;
+  justify-content:end;
+}
+
+.backgroundconf img{
+  width: 190px;
+  margin-left: 100px;
+  margin-top: -80px;
+  position: fixed;
+}
+
+.backgroundconf h1{
+  font-family: 'Share Tech', sans-serif;
+  position: fixed;
+  font-size: 45px;
+  margin-left: 310px;
+  margin-top: -10px;
+}
+
+.backgroundconf .tfirst{
+  margin-left: 400px;
+  margin-top: 220px;
+  font-size: 40px;
+}
+
+.backgroundconf .tsecond{
+  margin-left: 400px;
+  margin-top: 20px;
+  font-size: 40px;
+}
+
+.backgroundconf .stfirst{
+  margin-left: 400px;
+  margin-top: 20px;
+  font-weight: 100;
+}
+
+.backgroundconf .stsecond{
+  margin-left: 400px;
+  margin-top: 20px;
+  font-weight: 100;
+}
+
+@media (min-width: 1800px){
+  .backgroundconf{
+    background-image: url(../img/confirmacion.png);
+    background-repeat: no-repeat;
+    background-size:cover;
+    height: 909px;
+    padding-top: 20rem;
+    align-items:center;
+    justify-content:end;
+  }
+  
+  .backgroundconf img{
+    width: 230px;
+    margin-left: 120px;
+    margin-top: -80px;
+    position: fixed;
+  }
+  
+  .backgroundconf h1{
+    font-family: 'Share Tech', sans-serif;
+    position: fixed;
+    font-size: 60px;
+    margin-left: 360px;
+    margin-top: 10px;
+  }
+  
+  .backgroundconf .tfirst{
+    margin-left: 400px;
+    margin-top: 320px;
+    font-size: 60px;
+  }
+  
+  .backgroundconf .tsecond{
+    margin-left: 400px;
+    margin-top: -60px;
+    font-size: 60px;
+  }
+  
+  .backgroundconf .stfirst{
+    margin-left: 410px;
+    margin-top: 20px;
+    font-weight: 100;
+  }
+  
+  .backgroundconf .stsecond{
+    margin-left: 410px;
+    margin-top: 20px;
+    font-weight: 100;
+  }
+}
+
+/*HOME PAGE CON USUARIO LOGEADO*/
+
+.principalreserva{
+  background-image: url(../img/reservahome.png);
+  background-repeat: no-repeat;
+  background-size:cover;
+  height: 2100px;
+  padding: 34px;
+  display: block;
+}
+
+.carousel__contenedor,
+.carousel__contenedortwo,
+.carousel__contenedorthree,
+.carousel__contenedorfour,
+.carousel__contenedorfive{
+  position: relative;
+
+}
+
+.carousel__anterior,
+.carousel__siguiente,
+.carousel__anteriortwo,
+.carousel__siguientetwo,
+.carousel__anteriorthree,
+.carousel__siguientethree,
+.carousel__anteriorfour,
+.carousel__siguientefour,
+.carousel__anteriorfive,
+.carousel__siguientefive{
+  position: absolute;
+  display: block;
+  width: 30px;
+  height: 30px;
+  border: none;
+  top: calc(40% - 90px);
+  cursor: pointer;
+  line-height: 250px;
+  text-align: center;
+  background: none;
+  color: #fff;
+  opacity: 50%;
+}
+
+.carousel__anterior:hover,
+.carousel__siguiente:hover,
+.carousel__anteriortwo:hover,
+.carousel__siguientetwo:hover,
+.carousel__anteriorthree:hover,
+.carousel__siguientehree:hover,
+.carousel__anteriorfour:hover,
+.carousel__siguientefour:hover,
+.carousel__anteriorfive:hover,
+.carousel__siguientefive:hover {
+  opacity: 100%;
+}
+
+.carousel__anterior,
+.carousel__anteriortwo,
+.carousel__anteriorthree,
+.carousel__anteriorfour,
+.carousel__anteriorfive{
+  left: -40px;
+}
+
+.carousel__siguiente,
+.carousel__siguientetwo,
+.carousel__siguientethree,
+.carousel__siguientefour,
+.carousel__siguientefive{
+  right: -20px;
+}
+
+.carousel__lista,
+.carousel__listatwo,
+.carousel__listathree,
+.carousel__listafour,
+.carousel__listafive{
+  overflow: hidden;
+}
+
+.carousel__elemento,
+.carousel__elementotwo,
+.carousel__elementothree,
+.carousel__elementofour,
+.carousel__elementofive{
+  text-align: center;
+  background-repeat: no-repeat;
+  background-size:auto;
+  padding: 30px;
+  
+}
+
+.background{
+  background-image: url(../img/hubcyber.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  height:260px;
+}
+
+.backgroundtwo{
+  background-image: url(../img/escudo.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  height:260px;
+}
+
+.backgroundthree{
+  background-image: url(../img/world.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  height:260px;
+  opacity: 80%;
+}
+
+.backgroundfour{
+  background-image: url(../img/confirmacion.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  height:260px;
+  opacity: 80%;
+}
+
+.backgroundfive{
+  background-image: url(../img/reservahome.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  height:260px;
+  opacity: 80%;
+}
+
+.background p,
+.backgroundtwo p,
+.backgroundthree p,
+.backgroundfour p,
+.backgroundfive p{
+  color: var(--primario);
+  text-align: center;
+  font-size: 22px;
+  display:block;
+}
+
+.header, .headertwo, .headerthree, .headerfour, .headerfive{
+  display: flex;
+  align-items:flex-start;
+  justify-content:space-between;
+}
+
+.background a,
+.backgroundtwo a,
+.backgroundthree a,
+.backgroundfour a,
+.backgroundfive a{
+  text-decoration: none;
+  color: var(--primario);
+}
+
+.background li,
+.backgroundtwo li,
+.backgroundthree li,
+.backgroundfour li,
+.backgroundfive li{
+  color: var(--primario);
+  left: 900px;
+  list-style-type: none;
+  text-align: left;
+}
+
+.carousel__indicadores .glider-dot,
+.carousel__indicadorestwo .glider-dot,
+.carousel__indicadoresthree .glider-dot,
+.carousel__indicadoresfour .glider-dot,
+.carousel__indicadoresfive .glider-dot {
+  display: block;
+  width: 30px;
+  height: 4px;
+  background: white;
+  opacity: .2;
+  border-radius: 0;
+
+}
+
+.carousel__indicadores .glider-dot:hover,
+.carousel__indicadorestwo .glider-dot:hover,
+.carousel__indicadoresthree .glider-dot:hover,
+.carousel__indicadoresfour .glider-dot:hover,
+.carousel__indicadoresfive .glider-dot:hover {
+  opacity: .5;
+}
+
+.carousel__indicadores .glider.activate,
+.carousel__indicadorestwo .glider.activate,
+.carousel__indicadoresthree .glider.activate,
+.carousel__indicadoresfour .glider.activate,
+.carousel__indicadoresfive .glider.activate {
+  opacity: .5;
+}
+
+/*FORMULARIO RESERVACION*/
+
+.principalformr{
+  background-image: url(../img/reservahome.png);
+  background-repeat: no-repeat;
+  background-size:cover;
+  height: 2100px;
+  padding: 34px;
+  display: block;
+}
+
+.principalformr h3{
+  color: var(--primario);
+  font-size: 25px;
+  margin-top: -26px;
+}
+
+.bi{
+  background-image: url(../img/formularioreserva.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+.inicior{
+  outline: 8px ridge rgba(72, 218, 241, 0.6);
+  border-radius: 2rem;
+  margin-right: 15rem;
+  margin-left: 20rem;
+  margin-top: 60px;
+  display: block;
+  font-size: 16px;
+  font-family: 'Krub',sans-serif;
+  padding: 2rem;
+}
+
+.inicior #first{
+  background: var(--etexto);
+  color: var(--primario);
+  font-weight: 600;
+  opacity: .9;
+}
+
+.inicior .sesion input[type=button]{
+  width: 20%;
+  border-radius: .6rem;
+  padding: 18px;
+  font-size: 12px;
+  margin-top: 50px;
+  margin-left: 100px;
+  margin-bottom: -40px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  
+}
+
+.inicio #second{
+  background: var(--secundario);
+  color: var(--primario);
+  font-weight: 600;
+  opacity: .9;
+}
+
+@media (min-width: 1800px){
+  .principalformr{
+    background-image: url(../img/reservahome.png);
+    background-repeat: no-repeat;
+    background-size:cover;
+    height: 2100px;
+    padding: 34px;
+    display: block;
+  }
+  
+  .principalformr h3{
+    color: var(--primario);
+    font-size: 25px;
+    margin-top: -26px;
+  }
+  
+  .bi{
+    background-image: url(../img/formularioreserva.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+  
+  }
+  
+  .inicior{
+    outline: 8px ridge rgba(72, 218, 241, 0.6);
+    border-radius: 2rem;
+    margin-right: 15rem;
+    margin-left: 20rem;
+    margin-top: 60px;
+    display: block;
+    font-size: 16px;
+    font-family: 'Krub',sans-serif;
+    padding: 2rem;
+  }
+  
+  .inicior #first{
+    background: var(--etexto);
+    color: var(--primario);
+    font-weight: 600;
+    opacity: .9;
+  }
+  
+  .inicior .sesion input[type=button]{
+    width: 8%;
+    border-radius: .6rem;
+    padding: 18px;
+    font-size: 28px;
+    margin-top: 50px;
+    margin-left: 740px;
+    margin-bottom: -40px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    
+  }
+  
+  .inicio #second{
+    background: var(--secundario);
+    color: var(--primario);
+    font-weight: 600;
+    opacity: .9;
+  }
+
+}
+
+.hours table{
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+  border: 1px solid;
+}

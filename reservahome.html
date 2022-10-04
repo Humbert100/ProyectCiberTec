@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Reserva Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300&family=Cormorant+Unicase:wght@300&family=Cute+Font&family=Dongle:wght@300&family=Katibeh&family=Krub:wght@700&family=Libre+Baskerville:wght@700&family=Orbitron&family=Truculenta:opsz,wght@12..72,200&display=swap" rel="stylesheet">
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1.7.7/glider.min.css">
+</head>
+<body>
+
+    <div class="nav-bg">
+        <nav class="navegacion-principal contenedor">
+            <a href="iniciosesion.html">Inicio</a>
+            <a href="reservahome.html">Materiales y recursos</a>
+            <a>
+                <div class="dropdown">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle" width="36" height="36" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <circle cx="12" cy="12" r="9" />
+                        <circle cx="12" cy="10" r="3" />
+                        <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+                      </svg>
+                    <div class="dropdown-content">
+                      <a href="registro.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-history" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <polyline points="12 8 12 12 14 14" />
+                        <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+                      </svg>Historial</a>
+                      <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-help" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <circle cx="12" cy="12" r="9" />
+                        <line x1="12" y1="17" x2="12" y2="17.01" />
+                        <path d="M12 13.5a1.5 1.5 0 0 1 1 -1.5a2.6 2.6 0 1 0 -3 -4" />
+                      </svg>Ayuda</a>
+                      <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>Ajustes</a>
+                      <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                        <path d="M7 12h14l-3 -3m0 6l3 -3" />
+                      </svg>Cerrar sesión</a>
+                    </div>
+                  </div>
+            </a>
+        </nav>
+    </div>
+
+
+<section>  
+  <!--CARUSEL PRIMARIO MIS RESERVACIONES-->
+  <section>
+    <div class="principalreserva">
+      <div class="tres">
+        <h1>Mi contenido</h1>
+      </div>
+        <h2>Mis reservaciones</h2>
+            <div class="carouselreserva">
+                <div class="carousel__contenedor">
+                    <button arial-label="Anterior" class="carousel__anterior">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="48" height="48" viewBox="0 0 24 24" stroke-width="3" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <polyline points="15 6 9 12 15 18" />
+                          </svg>
+                    </button>
+        
+                    <div class="carousel__lista">
+                        <div class="carousel__elemento">
+                                <div class="background">
+                                    <div class="header">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <circle cx="12" cy="12" r="9" />
+                                            <path d="M10 10l4 4m0 -4l-4 4" />
+                                          </svg>
+                                    </div>
+                                    <p>Licencia</p>
+                                    <p>12/23/2022</p>
+                                </div>
+                        </div>
+                        
+                        <div class="carousel__elemento">
+                            <div class="background">
+                                <div class="header">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                        <circle cx="12" cy="12" r="9" />
+                                        <path d="M10 10l4 4m0 -4l-4 4" />
+                                      </svg>
+                                </div>
+                                <p>Licencia</p>
+                                <p>12/23/2022</p>
+                            </div>
+                    </div>
+                        
+                    <div class="carousel__elemento">
+                        <div class="background">
+                            <div class="header">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M10 10l4 4m0 -4l-4 4" />
+                                  </svg>
+                            </div>
+                            <p>Licencia</p>
+                            <p>12/23/2022</p>
+                        </div>
+                </div>
+                <div class="carousel__elemento">
+                    <div class="background">
+                        <div class="header">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M10 10l4 4m0 -4l-4 4" />
+                              </svg>
+                        </div>
+                        <p>Licencia</p>
+                        <p>12/23/2022</p>
+                    </div>
+            </div>          
+                    </div>
+        
+                    <button arial-label="Siguiente" class="carousel__siguiente">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="48" height="48" viewBox="0 0 24 24" stroke-width="3" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <polyline points="9 6 15 12 9 18" />
+                          </svg>
+                    </button>
+                </div>
+        
+                <div role="tablist" class="carousel__indicadores"></div>
+            </div>            
+
+<!--CARUSEL SECUNDARIO MIS FAVORITOS-->
+<div class="two">
+  <h2>Mis Favoritos</h2>
+</div>
+  <div class="carouselreservatwo">
+    <div class="carousel__contenedortwo">
+        <button arial-label="Anteriortwo" class="carousel__anteriortwo">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="48" height="48" viewBox="0 0 24 24" stroke-width="3" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <polyline points="15 6 9 12 15 18" />
+              </svg>
+        </button>
+
+        <div class="carousel__listatwo">
+            <div class="carousel__elemento">
+                    <div class="backgroundtwo">
+                        <div class="headertwo">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                          </svg>
+                        </div>
+                        <p>Licencia</p>
+                        <p>12/23/2022</p>
+                    </div>
+            </div>
+            
+            <div class="carousel__elementotwo">
+                <div class="backgroundtwo">
+                    <div class="headertwo">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                      </svg>
+                    </div>
+                    <p>Licencia</p>
+                    <p>12/23/2022</p>
+                </div>
+        </div>
+            
+        <div class="carousel__elementotwo">
+            <div class="backgroundtwo">
+                <div class="headertwo">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                  </svg>
+                </div>
+                <p>Licencia</p>
+                <p>12/23/2022</p>
+            </div>
+    </div>
+    <div class="carousel__elementotwo">
+        <div class="backgroundtwo">
+            <div class="headertwo">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+              </svg>
+            </div>
+            <p>Licencia</p>
+            <p>12/23/2022</p>
+        </div>
+    </div>          
+        </div>
+
+        <button arial-label="Siguientetwo" class="carousel__siguientetwo">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="48" height="48" viewBox="0 0 24 24" stroke-width="3" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <polyline points="9 6 15 12 9 18" />
+              </svg>
+        </button>
+    </div>
+
+    <div role="tablist" class="carousel__indicadores"></div>
+  </div>
+  <!--CARUSEL TERCIARIO DISPONIBILIDAD-->
+  <div class="tdis">
+    <h1>Menú de disponibilidad</h1>
+  </div>
+  <div class="three">
+    <h2>Espacios físicos</h2>
+  </div>
+  <div class="carouselreservathree">
+    <div class="carousel__contenedorthree">
+        <button arial-label="Anteriorthree" class="carousel__anteriorthree">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="48" height="48" viewBox="0 0 24 24" stroke-width="3" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <polyline points="15 6 9 12 15 18" />
+              </svg>
+        </button>
+
+        <div class="carousel__listathree">
+            <div class="carousel__elementothree">
+              <a href="homepage.html">
+                <div class="backgroundthree">
+                  <div class="headerthree">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                    </svg>
+                  </div>
+                  <p>Licencia</p>
+                  <p>12/23/2022</p>
+              </div>
+              </a>
+            </div>
+            
+            <div class="carousel__elementothree">
+              <a href="homepage.html">
+                <div class="backgroundthree">
+                  <div class="headerthree">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                    </svg>
+                  </div>
+                  <p>Licencia</p>
+                  <p>12/23/2022</p>
+              </div>
+              </a>
+            </div>
+            
+            <div class="carousel__elementothree">
+              <a href="homepage.html">
+                <div class="backgroundthree">
+                  <div class="headerthree">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                    </svg>
+                  </div>
+                  <p>Licencia</p>
+                  <p>12/23/2022</p>
+              </div>
+              </a>
+            </div>
+            <div class="carousel__elementothree">
+              <a href="homepage.html">
+                <div class="backgroundthree">
+                  <div class="headerthree">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                    </svg>
+                  </div>
+                  <p>Licencia</p>
+                  <p>12/23/2022</p>
+              </div>
+              </a>
+            </div>       
+        </div>
+
+        <button arial-label="Siguientethree" class="carousel__siguientethree">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="48" height="48" viewBox="0 0 24 24" stroke-width="3" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <polyline points="9 6 15 12 9 18" />
+              </svg>
+        </button>
+    </div>
+
+    <div role="tablist" class="carousel__indicadores"></div>
+  </div>
+  <!--CARUSEL CUARTO DISPONIBILIDAD SOFTWARE-->
+  <div class="four">
+    <h2>Software</h2>
+  </div>
+  <div class="carouselreservafour">
+    <div class="carousel__contenedorfour">
+        <button arial-label="Anteriorfour" class="carousel__anteriorfour">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="48" height="48" viewBox="0 0 24 24" stroke-width="3" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <polyline points="15 6 9 12 15 18" />
+              </svg>
+        </button>
+
+        <div class="carousel__listafour">
+            <div class="carousel__elementofour">
+              <a href="homepage.html">
+                <div class="backgroundfour">
+                  <div class="headerfour">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                    </svg>
+                  </div>
+                  <p>Licencia</p>
+                  <p>1/23/2022</p>
+              </div>
+              </a>
+            </div>
+            
+            <div class="carousel__elementofour">
+              <a href="homepage.html">
+                <div class="backgroundfour">
+                  <div class="headerfour">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                    </svg>
+                  </div>
+                  <p>Licencia</p>
+                  <p>12/23/2022</p>
+              </div>
+              </a>
+            </div>
+            
+            <div class="carousel__elementofour">
+              <a href="homepage.html">
+                <div class="backgroundfour">
+                  <div class="headerfour">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                    </svg>
+                  </div>
+                  <p>Licencia</p>
+                  <p>12/23/2022</p>
+              </div>
+              </a>
+            </div>
+            <div class="carousel__elementofour">
+              <a href="homepage.html">
+                <div class="backgroundfour">
+                  <div class="headerfour">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                      <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                    </svg>
+                  </div>
+                  <p>Licencia</p>
+                  <p>12/23/2022</p>
+              </div>
+              </a>
+            </div>         
+        </div>
+
+        <button arial-label="Siguientefour" class="carousel__siguientefour">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="48" height="48" viewBox="0 0 24 24" stroke-width="3" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <polyline points="9 6 15 12 9 18" />
+              </svg>
+        </button>
+    </div>
+
+    <div role="tablist" class="carousel__indicadores"></div>
+  </div>
+    <!--CARUSEL QUINTO DISPONIBILIDAD HARDWARE-->
+    <div class="five">
+      <h2>Hardware</h2>
+    </div>
+    <div class="carouselreservafive">
+      <div class="carousel__contenedorfive">
+          <button arial-label="Anteriorfive" class="carousel__anteriorfive">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="48" height="48" viewBox="0 0 24 24" stroke-width="3" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <polyline points="15 6 9 12 15 18" />
+                </svg>
+          </button>
+  
+          <div class="carousel__listafive">
+              <div class="carousel__elementofive">
+                <a href="homepage.html">
+                  <div class="backgroundfive">
+                    <div class="headerfive">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                      </svg>
+                    </div>
+                    <p>Licencia</p>
+                    <p>12/23/2022</p>
+                </div>
+                </a>
+              </div>
+              
+              <div class="carousel__elementofive">
+                <a href="homepage.html">
+                  <div class="backgroundfive">
+                    <div class="headerfive">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                      </svg>
+                    </div>
+                    <p>Licencia</p>
+                    <p>12/23/2022</p>
+                </div>
+                </a>
+              </div>
+              
+              <div class="carousel__elementofive">
+                <a href="homepage.html">
+                  <div class="backgroundfive">
+                    <div class="headerfive">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                      </svg>
+                    </div>
+                    <p>Licencia</p>
+                    <p>12/23/2022</p>
+                </div>
+                </a>
+              </div>
+              <div class="carousel__elementofive">
+                <a href="homepage.html">
+                  <div class="backgroundfive">
+                    <div class="headerfive">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-star" width="48" height="48" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                      </svg>
+                    </div>
+                    <p>Licencia</p>
+                    <p>12/23/2022</p>
+                </div>
+                </a>
+              </div>         
+          </div>
+  
+          <button arial-label="Siguientefive" class="carousel__siguientefive">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="48" height="48" viewBox="0 0 24 24" stroke-width="3" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <polyline points="9 6 15 12 9 18" />
+                </svg>
+          </button>
+      </div>
+  
+      <div role="tablist" class="carousel__indicadores"></div>
+    </div>
+</div>
+
+  </section>
+
+    <footer>
+        <p>Todos los derechos reservados - CyberTec 2022</p>
+    </footer>
+
+</body>
+</html>
+<!--SCRIPT CARUSEL PRIMERO-->
+<script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.7/glider.min.js"></script>
+<script>
+    window.addEventListener('load',function(){
+        new Glider(document.querySelector('.carousel__lista'), {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            arrows: {
+              prev: '.carousel__anterior',
+              next: '.carousel__siguiente'
+            },
+            responsive: [
+    {
+      // screens greater than >= 775px
+      breakpoint: 775,
+      settings: {
+        // Set to `auto` and provide item width to adjust to viewport
+        slidesToShow: 'auto',
+        slidesToScroll: 'auto',
+        itemWidth: 150,
+        duration: 0.25
+      }
+    },{
+      // screens greater than >= 1024px
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        itemWidth: 150,
+        duration: 0.25
+      }
+    }
+  ]
+        });
+    });
+</script>
+<!--SCRIPT CARUSEL SEGUNDO-->
+<script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.7/glider.min.js"></script>
+<script>
+    window.addEventListener('load',function(){
+        new Glider(document.querySelector('.carousel__listatwo'), {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            arrows: {
+              prev: '.carousel__anteriortwo',
+              next: '.carousel__siguientetwo'
+            },
+            responsive: [
+    {
+      // screens greater than >= 775px
+      breakpoint: 775,
+      settings: {
+        // Set to `auto` and provide item width to adjust to viewport
+        slidesToShow: 'auto',
+        slidesToScroll: 'auto',
+        itemWidth: 150,
+        duration: 0.25
+      }
+    },{
+      // screens greater than >= 1024px
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        itemWidth: 150,
+        duration: 0.25
+      }
+    }
+  ]
+        });
+    });
+</script>
+<!--SCRIPT CARUSEL TERCERO-->
+<script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.7/glider.min.js"></script>
+<script>
+    window.addEventListener('load',function(){
+        new Glider(document.querySelector('.carousel__listathree'), {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            arrows: {
+              prev: '.carousel__anteriorthree',
+              next: '.carousel__siguientethree'
+            },
+            responsive: [
+    {
+      // screens greater than >= 775px
+      breakpoint: 775,
+      settings: {
+        // Set to `auto` and provide item width to adjust to viewport
+        slidesToShow: 'auto',
+        slidesToScroll: 'auto',
+        itemWidth: 150,
+        duration: 0.25
+      }
+    },{
+      // screens greater than >= 1024px
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        itemWidth: 150,
+        duration: 0.25
+      }
+    }
+  ]
+        });
+    });
+</script>
+<!--SCRIPT CARUSEL CUARTO-->
+<script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.7/glider.min.js"></script>
+<script>
+    window.addEventListener('load',function(){
+        new Glider(document.querySelector('.carousel__listafour'), {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            arrows: {
+              prev: '.carousel__anteriorfour',
+              next: '.carousel__siguientefour'
+            },
+            responsive: [
+    {
+      // screens greater than >= 775px
+      breakpoint: 775,
+      settings: {
+        // Set to `auto` and provide item width to adjust to viewport
+        slidesToShow: 'auto',
+        slidesToScroll: 'auto',
+        itemWidth: 150,
+        duration: 0.25
+      }
+    },{
+      // screens greater than >= 1024px
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        itemWidth: 150,
+        duration: 0.25
+      }
+    }
+  ]
+        });
+    });
+</script>
+<!--SCRIPT CARUSEL QUINTO-->
+<script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.7/glider.min.js"></script>
+<script>
+    window.addEventListener('load',function(){
+        new Glider(document.querySelector('.carousel__listafive'), {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            arrows: {
+              prev: '.carousel__anteriorfive',
+              next: '.carousel__siguientefive'
+            },
+            responsive: [
+    {
+      // screens greater than >= 775px
+      breakpoint: 775,
+      settings: {
+        // Set to `auto` and provide item width to adjust to viewport
+        slidesToShow: 'auto',
+        slidesToScroll: 'auto',
+        itemWidth: 150,
+        duration: 0.25
+      }
+    },{
+      // screens greater than >= 1024px
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        itemWidth: 150,
+        duration: 0.25
+      }
+    }
+  ]
+        });
+    });
+</script>
+
+

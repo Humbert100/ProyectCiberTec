@@ -4,51 +4,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Inicio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300&display=swap" rel="stylesheet">
     <link rel="preload" href="css/styles.css" as="style">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <HEAder>
-        <h1>BIENVENIDO</h1>
-    </HEAder>
+    <div class="backgroundregister">
+        <img src="img/Logo.png" alt="">
+        <h1>CYBERTEC</h1>
+        <main>
+            <div class="inicio">
+                <section>
+                    <form action="">
+
+                        <div class="title">
+                            <legend>Iniciar sesión</legend>
+                            <legend><span>Ir a CyberTec</span></legend>
+                        </div>
+        
+                            <div class="correo">
+                                <input type="email" placeholder="E-mail">  
+                            </div>
+        
+                            <div class="contrasenia">
+                                <input type="password" placeholder="Contraseña">
+                            </div>
+                            
+                            <div class="sesion">
+                                <input type="button" id="first" value="Inicio de sesión" onclick="location.href='confirmacion.html';">
+                            </div>
+                            
+                        
+                    </form>
+                </section>
+            </div>
+
     
-    <main>
-        <section>
-            <form action="">
-                <fieldset>
-                    <legend>Crear cuenta</legend>
-                    <legend>Ir a CyberTec</legend>
-                    <div>
-                        <input type="text" placeholder="Nombre">   
-                        <input type="text" placeholder="Apellidos">
-                    </div>
-
-                    <div>
-                        <input type="email" placeholder="E-mail">
-                        <p>Se enviará un correo de comprobación</p>    
-                    </div>
-
-                    <div>
-                        <input type="password" placeholder="Contraseña"> 
-                        <input type="password" placeholder="Confirmación">
-                        <p>Utilizar 8 caracteres como mínimo con una combinación de letras, núermos y símbolos</p> 
-                    </div>
-
-                    <div>
-                        <input type="checkbox">
-                        <label for="">Acepto los términos y conndiciones</label>
-                    </div>
-                    
-                    <div>
-                        <input type="submit" value="Iniciar sesión">
-                        <input type="submit" value="Regístrate">
-                    </div>
-                </fieldset>
-            </form>
-        </section>
-
-    </main>
+        </main>
+    </div>
 
 </body>
 </html>
