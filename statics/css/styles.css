@@ -1341,8 +1341,8 @@ h2{
 .inicior{
   outline: 8px ridge rgba(72, 218, 241, 0.6);
   border-radius: 2rem;
-  margin-right: 15rem;
-  margin-left: 20rem;
+  margin-right: 12rem;
+  margin-left: 12rem;
   margin-top: 60px;
   display: block;
   font-size: 16px;
@@ -1361,7 +1361,7 @@ h2{
   width: 20%;
   border-radius: .6rem;
   padding: 18px;
-  font-size: 12px;
+  font-size: 18px;
   margin-top: 50px;
   margin-left: 100px;
   margin-bottom: -40px;
@@ -1443,9 +1443,63 @@ h2{
 
 }
 
-.hours table{
-  width: 100%;
-  text-align: center;
-  border-collapse: collapse;
-  border: 1px solid;
+.tabledate input[type=date]{
+  padding: 2px;
+  font-family: 'Krub',sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  border-radius: 2rem;
 }
+
+.tabledate table{
+  font-size: 26px;
+  color: var(--primario);
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tabledate td{
+  padding: 10px;
+  text-align: center;
+}
+
+.tabledate input[type=time]{
+  padding: 14px;
+  font-family: 'Krub',sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  border-radius: 2rem;
+}
+
+@media (min-width: 1800px){
+  .tabledate input[type=date]{
+    padding: 40px;
+    font-family: 'Krub',sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    border-radius: 2rem;
+  }
+  
+  .tabledate table{
+    font-size: 28px;
+    color: var(--primario);
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .tabledate td{
+    padding: 34px;
+    text-align: center;
+  }
+  
+  .tabledate input[type=time]{
+    padding: 40px;
+    font-family: 'Krub',sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    border-radius: 2rem;
+  }
+}
+

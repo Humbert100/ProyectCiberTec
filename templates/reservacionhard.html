@@ -57,21 +57,28 @@
             <h1>Formulario de Reservación</h1>
             <h3>Hardware</h3>
         </div>
-        <main>
-            <div class="inicior">
-                <section>
-                    <form action="">
-                        
-                    </form>
-                    <div class="sesion">
-                        <input type="button" id="first" value="Inicio de sesión" onclick="location.href='confirmacion.html';">
-                    </div>
-                    
-                </section>
-            </div>
+        <div class="inicior">
+          <div class="tabledate">
+            <table border="0">
+              <tr>
+                <td>Fecha de uso</td>
+                <td><input type="date"></td>
+                <td>Fecha de entrega</td>
+                <td><input type="date"></td>
+              </tr>
+              <tr>
+                <td>Hora de inicio</td>
+                <td><input type="time"></td>
+                <td>Hora de entrega</td>
+                <td><input type="time"></td>
+              </tr>
+            </table>
+            <div class="sesion">
+              <input type="button" id="first" value="Reservar" onclick="location.href='confirmacion.html';">
+          </div>
+          </div>
+        </div>
 
-    
-        </main>
     </div>
 
   </section>
@@ -82,3 +89,12 @@
 
 </body>
 </html>
+
+<script>
+  document.getElementById('datePicker').valueAsDate = new Date();
+</script>
+
+<script>
+var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  document.getElementById("currentTime").value = time;
+</script>

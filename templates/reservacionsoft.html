@@ -55,57 +55,28 @@
     <div class="principalformr">
         <div class="bi">
             <h1>Formulario de Reservación</h1>
-            <h3>Software</h3>
+            <h3>Hardware</h3>
         </div>
-        <main>
-            <div class="inicior">
-                <section>
-                    <form action="">
-                      <div class="hours">
-                        <table border="2">
-                          <tr>
-                            <th colspan="7">28 de abril</th>
-                          </tr>
-                          <tr>
-                            <td>8:00am</td>
-                            <td>15:00pm</td>
-                          </tr>
-                          <tr>
-                            <td>9:00am</td>
-                            <td>16:00pm</td>
-                          </tr>
-                          <tr>
-                            <td>10:00am</td>
-                            <td>17:00pm</td>
-                          </tr>
-                          <tr>
-                            <td>11:00am</td>
-                            <td>18:00pm</td>
-                          </tr>
-                          <tr>
-                            <td>12:00pm</td>
-                            <td>19:00pm</td>
-                          </tr>
-                          <tr>
-                            <td>13:00pm</td>
-                            <td>20:00pm</td>
-                          </tr>
-                          <tr>
-                            <td>14:00pm</td>
-                            <td>21:00pm</td>
-                          </tr>
-                        </table>
-                      </div>
-                    </form>
-                    <div class="sesion">
-                        <input type="button" id="first" value="RESERVA" onclick="location.href='confirmacion.html';">
-                    </div>
-                    
-                </section>
-            </div>
+        <div class="inicior">
+          <div class="tabledate">
+            <table border="0">
+              <th>
+                <td>Fecha de uso</td>
+                <td><input type="date" id="datePicker"></td>
+              </th>
+              <tr>
+                <td>Hora de inicio</td>
+                <td><input type="time"></td>
+                <td>Hora de entrega</td>
+                <td><input type="time"></td>
+              </tr>
+            </table>
+            <div class="sesion">
+              <input type="button" id="first" value="Reservar" onclick="location.href='confirmacion.html';">
+          </div>
+          </div>
+        </div>
 
-    
-        </main>
     </div>
 
   </section>
@@ -116,3 +87,7 @@
 
 </body>
 </html>
+
+<script>
+  document.getElementById('datePicker').valueAsDate = new Date();
+</script>
