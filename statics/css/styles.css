@@ -1651,7 +1651,58 @@ h2{
   display: block;
 }
 
-.tablefaqs table{
+.item{
+  margin-bottom: 40px;
+  margin-top: 40px;
+  padding: 20px;
+  background: #001547;
+}
+
+.faqbody{
+  display: none;
+  margin-top: 30px;
+}
+
+.faq-wrapper{
+  width: 75%;
+  margin: 0 auto;
+}
+
+.faqinner{
+  padding: 30px;
+  background: transparent;
+}
+
+.plus{
+  float: right;
+  font-size: 1.4em;
+  line-height: 1em;
+  cursor: pointer;
+  color: #fff;
+}
+
+.faqbody p{
+  color: white;
+  font-size: 26px;
+  text-align: center;
+  background-color: transparent;
+}
+
+.faqscointaner h2{
+  font-size: 29px;
+}
+
+/*------HISTORIAL---------*/
+.historial{
+  background-image: url(../img/ayudahistorial.png);
+  background-repeat: no-repeat;
+  background-size:cover;
+  padding: 34px;
+  height:910px;
+  display: block;
+}
+
+.tablehistorial table{
   font-size: 26px;
   color: var(--primario);
   align-content: center;
@@ -1659,25 +1710,221 @@ h2{
   margin-right: auto;
 }
 
-.tablefaqs td{
+.tablehistorial td{
   padding: 1px;
   text-align: center;
   padding-top: 100px;
 }
 
+.tablehistorial th{
+  font-size: 32px;
+  color: white;
+}
+
+.titlehistorial span{
+  font-size: 35px;
+}
+
 @media (min-width: 1800px){
+  .historial{
+    background-image: url(../img/ayudahistorial.png);
+    background-repeat: no-repeat;
+    background-size:cover;
+    padding: 34px;
+    height:910px;
+    display: block;
+  }
   
-  .tablefaqs table{
-    font-size: 28px;
+  .tablehistorial table{
+    font-size: 30px;
+    color: var(--primario);
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: none;
+  }
+  
+  .tablehistorial td{
+    padding: 90px;
+    text-align: center;
+    padding-top: 100px;
+  }
+  
+  .tablehistorial th{
+    font-size: 45px;
+    color: white;
+  }
+}
+
+.tableajustes table{
+  font-size: 24px;
+  color: var(--primario);
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tableajustes td{
+  padding: 1px;
+  text-align: center;
+  padding-top: 40px;
+}
+
+.tableajustes th{
+  font-size: 32px;
+  color: white;
+}
+
+.tableajustes .correo input[type=email]{
+  width: 98%;
+  border: 2px solid var(--etexto);
+  border-radius: 4px;
+  margin: 90px 10px 20px; /*ARRIBA E IZQUIERDA*/
+  outline:none;
+  padding: 18px;
+  box-sizing: border-box;
+  font-size: 22px;
+}
+
+/*INPUT NOMBRE Y APELLIDOS AL ESTAR SELECCIONADO*/
+.tableajustes .correo input[type=email]:focus{
+  border-color: var(--primario);
+  box-shadow: 0 0 10px 0 var(--primario);
+  font-size: 28px;
+}
+
+/*INPUT CONTRASEÑA Y CONFIRMACIÓN AL NO ESTAR SELECCIONADO*/
+.tableajustes .contrasenia input[type=password]{
+  width: 98%;
+  border: 2px solid var(--etexto);
+  border-radius: 4px;
+  margin: 20px 5px;
+  outline:none;
+  padding: 18px;
+  box-sizing: border-box;
+  font-size: 22px;
+}
+/*INPUT CONTRASEÑA Y CONFIRMACIÓN AL ESTAR SELECCIONADO*/
+.tableajustes .contrasenia input[type=password]:focus{
+  border-color: var(--primario);
+  box-shadow: 0 0 10px 0 var(--primario);
+  font-size: 28px;
+}
+
+.tableajustes .name input[type=text]{
+  width: 98%;
+  border: 2px solid var(--etexto);
+  border-radius: 4px;
+  margin: 20px 5px;
+  outline:none;
+  padding: 18px;
+  box-sizing: border-box;
+  font-size: 22px;
+}
+
+.tableajustes .name input[type=text]:focus{
+  border-color: var(--primario);
+  box-shadow: 0 0 10px 0 var(--primario);
+  font-size: 28px;
+}
+
+.inicior .ajustes input[type=button]{
+  width: 30%;
+  border-radius: .6rem;
+  padding: 18px;
+  font-size: 24px;
+  margin-top: 50px;
+  margin-left: 210px;
+  margin-bottom: -40px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+}
+
+@media (min-width:1800px){
+  .tableajustes table{
+    font-size: 24px;
     color: var(--primario);
     align-content: center;
     margin-left: auto;
     margin-right: auto;
   }
   
-  .tablefaqs td{
-    padding: 34px;
+  .tableajustes td{
+    padding: 1px;
     text-align: center;
+    padding-top: 1px;
   }
   
+  .tableajustes th{
+    font-size: 32px;
+    color: white;
+  }
+  
+  .tableajustes .correo input[type=email]{
+    width: 98%;
+    border: 2px solid var(--etexto);
+    border-radius: 4px;
+    margin: 20px 10px 20px; /*ARRIBA E IZQUIERDA*/
+    outline:none;
+    padding: 18px;
+    box-sizing: border-box;
+    font-size: 22px;
+  }
+  
+  /*INPUT NOMBRE Y APELLIDOS AL ESTAR SELECCIONADO*/
+  .tableajustes .correo input[type=email]:focus{
+    border-color: var(--primario);
+    box-shadow: 0 0 10px 0 var(--primario);
+    font-size: 28px;
+  }
+  
+  /*INPUT CONTRASEÑA Y CONFIRMACIÓN AL NO ESTAR SELECCIONADO*/
+  .tableajustes .contrasenia input[type=password]{
+    width: 98%;
+    border: 2px solid var(--etexto);
+    border-radius: 4px;
+    margin: 20px 5px;
+    outline:none;
+    padding: 18px;
+    box-sizing: border-box;
+    font-size: 22px;
+  }
+  /*INPUT CONTRASEÑA Y CONFIRMACIÓN AL ESTAR SELECCIONADO*/
+  .tableajustes .contrasenia input[type=password]:focus{
+    border-color: var(--primario);
+    box-shadow: 0 0 10px 0 var(--primario);
+    font-size: 28px;
+  }
+  
+  .tableajustes .name input[type=text]{
+    width: 98%;
+    border: 2px solid var(--etexto);
+    border-radius: 4px;
+    margin: 20px 5px;
+    outline:none;
+    padding: 18px;
+    box-sizing: border-box;
+    font-size: 22px;
+  }
+  
+  .tableajustes .name input[type=text]:focus{
+    border-color: var(--primario);
+    box-shadow: 0 0 10px 0 var(--primario);
+    font-size: 28px;
+  }
+  
+  .inicior .ajustes input[type=button]{
+    width: 14%;
+    border-radius: .6rem;
+    padding: 18px;
+    font-size: 28px;
+    margin-top: 50px;
+    margin-left: 820px;
+    margin-bottom: -40px;
+    border: none;
+    cursor: pointer;
+    display: flex; 
+  }
 }
+
