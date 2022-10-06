@@ -6,6 +6,7 @@ from turtle import update
 from flask import Flask, render_template, request, url_for, make_response, redirect
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func, desc
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from Models.reservations import reservationSchema, Reservations
@@ -175,6 +176,12 @@ def get_all_users():
     user_schema = userSchema(many=True)
     return  user_schema.dumps(users)
 
+@app.route('/mostwanted/content', methods=["GET"])
+def most_wanted_content():
+    mostW  = db.session.query(func.count(Reservations.contentId)) 
+    print(mostW)
+    return "ñiajara"
+    
 @app.route('/reservations/create', methods=["POST"])#Se crea una nueva reservacion con el ID del usuario y del objeto a reservar
 def creat_reservation():
     body    = request.get_json()
@@ -204,6 +211,20 @@ def get_content(type):
     content = Content.query.filter(Content.type==type).all()
     content_schema = contentSchema(many=True)
     return content_schema.dumps(content)
+
+@app.route('/content/reservation', methods=["POST"])
+def content_reservations():
+    body = request.get_json()
+    res = Reservations.query.filter(Reservations.startDate == body.get("Date")).filter(Reservations.contentId == body.get("content")).with_entities(Reservations.startHour, Reservations.endHour)
+    reservation_schema = reservationSchema(many=True)
+    return reservation_schema.dumps(res)
+
+@app.route('/content/reservation/Software', methods=["POST"])
+def content_reservations_soft():
+    body = request.get_json()
+    res = Reservations.query.filter(Reservations.startDate == body.get("Date")).filter(Reservations.contentId == body.get("content")).with_entities(Reservations.startDate, Reservations.endDate)
+    reservation_schema = reservationSchema(many=True)
+    return reservation_schema.dumps(res)
 
 @app.route("/getall/content", methods=['GET'])
 def get_all_content():
