@@ -1361,9 +1361,9 @@ h2{
   width: 20%;
   border-radius: .6rem;
   padding: 18px;
-  font-size: 18px;
+  font-size: 28px;
   margin-top: 50px;
-  margin-left: 100px;
+  margin-left: 210px;
   margin-bottom: -40px;
   border: none;
   cursor: pointer;
@@ -1442,7 +1442,7 @@ h2{
   }
 
 }
-
+/*---HARDWARE-SOFRWARE-ESPACIOS FISICOS---*/
 .tabledate input[type=date]{
   padding: 2px;
   font-family: 'Krub',sans-serif;
@@ -1460,15 +1460,16 @@ h2{
 }
 
 .tabledate td{
-  padding: 10px;
+  padding: 1px;
   text-align: center;
+  padding-top: 100px;
 }
 
 .tabledate input[type=time]{
-  padding: 14px;
+  padding: 10px;
   font-family: 'Krub',sans-serif;
   font-weight: 700;
-  font-size: 28px;
+  font-size: 24px;
   border-radius: 2rem;
 }
 
@@ -1503,3 +1504,180 @@ h2{
   }
 }
 
+/*BACKGROUND DE ERROR DE AUTENTICACIÓN*/
+.backgrounderror{
+  background-image: url(../img/confirmacion.png);
+  background-repeat: no-repeat;
+  background-size:cover;
+  height: 888px;
+  padding-top: 20rem;
+  align-items:center;
+  justify-content:end;
+}
+
+.backgrounderror img{
+  width: 190px;
+  margin-left: 100px;
+  margin-top: -80px;
+  position: fixed;
+}
+
+.backgrounderror h1{
+  font-family: 'Share Tech', sans-serif;
+  position: fixed;
+  font-size: 45px;
+  margin-left: 310px;
+  margin-top: -10px;
+}
+
+.backgrounderror .tfirst{
+  margin-left: 400px;
+  margin-top: 220px;
+  font-size: 40px;
+}
+
+.backgrounderror .tsecond{
+  margin-left: 400px;
+  margin-top: 20px;
+  font-size: 40px;
+}
+
+.backgrounderror .stfirst{
+  margin-left: 400px;
+  margin-top: 20px;
+  font-weight: 100;
+}
+
+.backgrounderror .stsecond{
+  margin-left: 400px;
+  margin-top: 20px;
+  font-weight: 100;
+}
+
+#firsterror{
+  background: #545c71;
+  color: var(--primario);
+  font-weight: 600;
+  opacity: .9;
+}
+
+.error input[type=button]{
+  width: 30%;
+  border-radius: .6rem;
+  padding: 28px;
+  font-size: 28px;
+  margin-top: 60px;
+  margin-left: 420px;
+  border: none;
+  cursor: pointer;
+}
+
+@media (min-width: 1800px){
+  .backgrounderror{
+    background-image: url(../img/confirmacion.png);
+    background-repeat: no-repeat;
+    background-size:cover;
+    height: 909px;
+    padding-top: 20rem;
+    align-items:center;
+    justify-content:end;
+  }
+  
+  .backgrounderror img{
+    width: 230px;
+    margin-left: 120px;
+    margin-top: -80px;
+    position: fixed;
+  }
+  
+  .backgrounderror h1{
+    font-family: 'Share Tech', sans-serif;
+    position: fixed;
+    font-size: 60px;
+    margin-left: 360px;
+    margin-top: 10px;
+  }
+  
+  .backgrounderror .tfirst{
+    margin-left: 400px;
+    margin-top: 220px;
+    font-size: 60px;
+  }
+  
+  .backgrounderror .tsecond{
+    margin-left: 400px;
+    margin-top: -60px;
+    font-size: 60px;
+  }
+  
+  .backgrounderror .stfirst{
+    margin-left: 410px;
+    margin-top: 20px;
+    font-weight: 100;
+  }
+  
+  .backgrounderror .stsecond{
+    margin-left: 410px;
+    margin-top: 20px;
+    font-weight: 100;
+  }
+
+  #firsterror{
+    background: #545c71;
+    color: var(--primario);
+    font-weight: 600;
+    opacity: .9;
+  }
+  
+  .error input[type=button]{
+    width: 28%;
+    border-radius: .6rem;
+    padding: 28px;
+    font-size: 28px;
+    margin-bottom: -9000px;
+    margin-left: 420px;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+/*AYUDA E HISTORIAL*/
+.ayudahistorial{
+  background-image: url(../img/ayudahistorial.png);
+  background-repeat: no-repeat;
+  background-size:cover;
+  height: 2100px;
+  padding: 34px;
+  display: block;
+}
+
+.tablefaqs table{
+  font-size: 26px;
+  color: var(--primario);
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tablefaqs td{
+  padding: 1px;
+  text-align: center;
+  padding-top: 100px;
+}
+
+@media (min-width: 1800px){
+  
+  .tablefaqs table{
+    font-size: 28px;
+    color: var(--primario);
+    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .tablefaqs td{
+    padding: 34px;
+    text-align: center;
+  }
+  
+}

@@ -60,12 +60,10 @@
         <div class="inicior">
           <div class="tabledate">
             <table border="0">
-              <tr>
+              <th>
                 <td>Fecha de uso</td>
-                <td><input type="date"></td>
-                <td>Fecha de entrega</td>
-                <td><input type="date"></td>
-              </tr>
+                <td><input type="date" id="datePicker"></td>
+              </th>
               <tr>
                 <td>Hora de inicio</td>
                 <td><input type="time"></td>
@@ -92,9 +90,4 @@
 
 <script>
   document.getElementById('datePicker').valueAsDate = new Date();
-</script>
-
-<script>
-var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  document.getElementById("currentTime").value = time;
 </script>
