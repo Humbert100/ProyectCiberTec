@@ -4,7 +4,6 @@ from importlib.resources import contents
 from msilib.schema import Signature
 from turtle import update
 from flask import Flask, render_template, request, url_for, make_response, redirect
-from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func, desc
 from flask_cors import CORS
@@ -20,7 +19,6 @@ import re
 
 #Se crea la app en flaks
 app = Flask(__name__)
-Bootstrap(app)
 app.config.from_pyfile('config.cfg')
 '''
 app.config['MAIL_SERVER']   = 'smtp.gmail.com'
@@ -35,7 +33,7 @@ bcrypt = Bcrypt(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8412@localhost/ctdb.db'
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
+app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:9ff9afcb83cdb6434143ac3f4d3a47a05e9f38c59be5a9b8d3b7811c5c4ab65b@ec2-54-85-56-210.compute-1.amazonaws.com:5432/d5lgv0dab9q5ok'
 #Creamos llave secreta
 app.config['SECRET_KEY'] = 'COOLDUDE'
 #Se inicializa la base de datos 
@@ -61,10 +59,6 @@ def identity(payload):
     return User.query.filter(User.id==user_id).first()
 
 jwt = JWT(app, authenticate, identity)
-
-@app.route("/")
-def index():
-    return render_template("index.html")
 
 '''
 @app.route("/", methods=['GET', 'POST'])
@@ -142,7 +136,6 @@ def userLogin():
     else:
         return "User not exist"
             
-
 @app.route("/content/create", methods=['POST']) #Se crea un nuevo contenido:
 def creat_content():
     body = request.get_json()
@@ -170,6 +163,14 @@ def delete_user(id):
 
     return "User successfully deleted"
 
+@app.route("/app/delete/user/<id>", methods=["DELETE"])
+def app_delete_user(id):
+    user = User.query.filter_by(id=id).first()
+    user_Schema = userSchema()
+    user.deletedata()
+
+    return "User successfully deleted"
+
 @app.route("/getall/users", methods=["GET"])
 def get_all_users():
     users = User.query.with_entities(User.id, User.name, User.email, User.admin, User.superAdmin, User.tecAssociate, User.block)
@@ -184,6 +185,20 @@ def most_wanted_content():
     
 @app.route('/reservations/create', methods=["POST"])#Se crea una nueva reservacion con el ID del usuario y del objeto a reservar
 def creat_reservation():
+    body    = request.get_json()
+    userId    = User.query.filter_by(id=body.pop("user")).first()
+    contentId = Content.query.filter_by(id=body.pop("content")).first()
+    start = body.pop("startDate")
+    end = body.pop("endDate")
+    Reservation_Schema = reservationSchema()
+    content_Schema = contentSchema()
+    body = Reservations(user=userId, content=contentId, startDate=start, endDate=end)
+    body.save()
+
+    return Reservation_Schema.dumps(body)
+
+@app.route('/app/reservations/create', methods=["POST"])#Se crea una nueva reservacion con el ID del usuario y del objeto a reservar
+def app_creat_reservation():
     body    = request.get_json()
     userId    = User.query.filter_by(id=body.pop("user")).first()
     contentId = Content.query.filter_by(id=body.pop("content")).first()
@@ -250,11 +265,91 @@ def update_user_data():
     user.updatedata()
     return "Change has been comited"
 
+@app.route('/updateUser', methods=["PUT"])
+def app_update_user_data():
+    tec = '@tec.mx'
+    user_schema = userSchema()
+    body = request.get_json()
+    userId = body.pop("id")
+    assos = re.search(tec, body.get("email"))
+    user = User.query.filter_by(id=userId).first()
+    if(assos != None):
+        user.tecAssociate = 1
+    else:
+        user.tecAssociate = 0
+    user.email = body.get("email")
+    user.pwd=bcrypt.generate_password_hash(body["pwd"])
+    print(user_schema.dumps(user))
+    user.updatedata()
+    return "Change has been comited"
+
 @app.route('/protected')
 @jwt_required()
 def protected():
     user_Schema=userSchema()
     return '%s' % user_Schema.dump(current_identity)
+
+
+'''RUTAS DE LA PAGINA PRINCIPAL'''
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route('/ajustes')
+def ajustes():
+    return render_template("ajustes.html")
+
+@app.route('/ayuda')
+def ayuda():
+    return render_template('ayuda.html')
+
+@app.route('/calender')
+def calender():
+    return render_template('calender.html')
+
+@app.route('/codigo.html')
+def codigo():
+    return render_template('codigo.html')
+
+@app.route('/confirmacion')
+def confirmacion():
+    return render_template('confirmacion.html')
+
+@app.route('/error')
+def error():
+    return render_template('error.html')
+
+@app.route('/historial')
+def historial():
+    return render_template('historial.html')
+
+@app.route('/homepage')
+def homepage():
+    return render_template('homepage.html')
+
+@app.route('/iniciosesion')
+def iniciosesion():
+    return render_template('iniciosesion.html')
+
+@app.route('/registro')
+def registro():
+    return render_template('registro.html')
+
+@app.route('/reservacionfis')
+def reservacionfis():
+    return render_template('reservacionfis.html')
+
+@app.route('/reservacionhard')
+def reservacionhard():
+    return render_template('reservacionhard.html')
+
+@app.route('/reservacionsoft')
+def reservacionsoft():
+    return render_template('reservacionsoft.html')
+
+@app.route('/reservahome')
+def reservahome():
+    return render_template('reservahome.html')
 
 if __name__ == '__main__':
     app.run

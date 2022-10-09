@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="backgroundregister">
-        <img src="/statics/img/Logo.png" alt="">
+        <img src=""{{ url_for('static',filename='/static/resources/Logo.png') }}"" alt="">
         <h1>CYBERTEC</h1>
         <main>
             <div class="register">
@@ -25,29 +25,29 @@
                         </div>
     
                             <div class="name">
-                                <input type="text" placeholder="Nombre">   
-                                <input type="text" placeholder="Apellidos">
+                                <label for="user_name">nombre</label><input type="text" id="user_name">   
+                                <label for="user_name">apellido(s)</label><input type="text" id="user_lastname">
                             </div>
         
                             <div class="correo">
-                                <input type="email" placeholder="E-mail">
+                                <input type="email" placeholder="E-mail" id="user_email">
                                 <p>Se enviará un correo de comprobación</p>    
                             </div>
         
                             <div class="contrasenia">
-                                <input type="password" placeholder="Contraseña"> 
-                                <input type="password" placeholder="Confirmación">
+                                <input type="password" placeholder="Contraseña" id="user_pwd"> 
+                                <input type="password" placeholder="Confirmación" id="user_pwd_confirmation">
                                 <p>Utilizar 8 caracteres como mínimo con una combinación de letras, núermos y símbolos</p> 
                             </div>
         
                             <div class="condiciones">
-                                <input type="checkbox" id="t1" name="t1">
+                                <input type="checkbox" id="checkbox" name="t1">
                                 <label for="t1">Acepto los términos y conndiciones</label>
                             </div>
                             
                             <div class="sesion">
-                                <input type="submit" id="first" value="Iniciar sesión">
-                                <input type="button" id="second" value="Regístrate" onclick="location.href='iniciosesion.html';">
+                                <input type="button" id="first" value="Iniciar sesión" onclick="process_sign_in_info()">
+                                <input type="button" id="second" value="Regístrate" onclick="location.href='/iniciosesion';">
                             </div>
                             
                         
