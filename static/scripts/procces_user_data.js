@@ -47,7 +47,7 @@ function process_login_info(){
 
 function process_sign_in_info(){
     var continue_next = true;
-    
+    /*
     switch(true){
         case(!("#user_name").val()):
             alert("Favor de ingresar su nombre");
@@ -81,7 +81,7 @@ function process_sign_in_info(){
     if(continue_next == false){
         console.log("usuario invalido para registrar");
         return;
-    }
+    }*/
 
     let name = ("#user_name").val() + " " + ("#user_lastname").val()
     let user_sign_up_data = {   'name'      :   name,
@@ -90,8 +90,8 @@ function process_sign_in_info(){
     console.log(user_sign_up_data)
 
     $.ajax({
-        type        :   "POST",
         url         :   "/user/create",
+        type        :   "POST",
         data        :   JSON.stringify(user_login_data),
         contentType :   'application/json',
         dataType    :   "json",
