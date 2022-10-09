@@ -6,14 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>CyberTec</title>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300&family=Cormorant+Unicase:wght@300&family=Cute+Font&family=Dongle:wght@300&family=Katibeh&family=Krub:wght@700&family=Libre+Baskerville:wght@700&family=Orbitron&family=Truculenta:opsz,wght@12..72,200&display=swap" rel="stylesheet">
-    <link rel="preload" href="{{ url_for('static',filename='styles/styles.css') }}" as="style">
-    <link rel="stylesheet" href="{{ url_for('static',filename='styles/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+    <!--
+<link rel="stylesheet" href="/static/styles/styles.css">
+    -->
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1.7.7/glider.min.css">
 </head>
 <body>
     <div class="nav-bg">
         <nav class="navegacion-principal contenedor">
-            <a href="iniciosesion.html">Inicio</a>
+            <a href="{{url_for('/templates/homepage.html')}}">Inicio</a>
             <a href="homepage.html">Sobre</a>
             <a href="menu.html">
                 <div class="dropdown">

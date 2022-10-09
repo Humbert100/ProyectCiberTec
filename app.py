@@ -19,7 +19,7 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 import re
 
 #Se crea la app en flaks
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates', static_folder='static')
 Bootstrap(app)
 app.config.from_pyfile('config.cfg')
 '''
