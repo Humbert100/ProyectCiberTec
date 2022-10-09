@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="backgroundregister">
-        <img src="/statics/img/Logo.png" alt="">
+        <img src="{{ url_for('static',filename='/static/resources/Logo.png') }}" alt="">
         <h1>CYBERTEC</h1>
         <main>
             <div class="inicio">
@@ -32,7 +32,7 @@
                             </div>
                             
                             <div class="sesion">
-                                <input type="button" id="first" value="Inicio de sesión" onclick="location.href='confirmacion.html';">
+                                <input type="button" id="first" value="Inicio de sesión" onclick="location.href='/confirmacion';">
                             </div>
                             
                         
