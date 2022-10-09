@@ -33,7 +33,8 @@ bcrypt = Bcrypt(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8412@localhost/ctdb.db'
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:9ff9afcb83cdb6434143ac3f4d3a47a05e9f38c59be5a9b8d3b7811c5c4ab65b@ec2-54-85-56-210.compute-1.amazonaws.com:5432/d5lgv0dab9q5ok'
+#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
+app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
 #Creamos llave secreta
 app.config['SECRET_KEY'] = 'COOLDUDE'
 #Se inicializa la base de datos 
