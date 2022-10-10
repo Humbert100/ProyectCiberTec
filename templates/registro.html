@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
     <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300&display=swap" rel="stylesheet">
-    <link rel="preload" href="{{ url_for('static',filename='styles/styles.css') }}" as="style">
+    <link type="text/css" rel="preload" href="{{ url_for('static',filename='styles/styles.css') }}" as="style">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/styles.css') }}">
-    <script src="{{ url_for('static',filename='scripts/procces_user_data.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='scripts/procces_user_data.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body>
     <div class="backgroundregister">
-        <img src="{{ url_for('static',filename='/static/resources/Logo.png') }}" alt="">
+        <img src="{{ url_for('static',filename='resources/Logo.png') }}" alt="">
         <h1>CYBERTEC</h1>
         <main>
             <div class="register">
@@ -26,18 +27,18 @@
                         </div>
     
                             <div class="name">
-                                <label for="user_name">nombre</label><input type="text" id="user_name">   
-                                <label for="user_lastname">apellido(s)</label><input type="text" id="user_lastname">
+                                <input type="text" placeholder="Nombre" id="user_name">   
+                                <input type="text" placeholder="Apellido(S)" id="user_lastname">
                             </div>
         
                             <div class="correo">
-                                <label for="user_email">E-mail</label><input type="email" id="user_email">
+                                <input type="email" id="user_email" placeholder="Nombre">
                                 <p>Se enviará un correo de comprobación</p>    
                             </div>
         
                             <div class="contrasenia">
-                                <label for="user_name">Contraseña</label><input type="password" id="user_pwd"> 
-                                <label for="user_name">Confirmacion</label><input type="password" id="user_pwd_confirmation">
+                                <input type="password" placeholder="Contraseña" id="user_pwd"> 
+                                <input type="password" placeholder="confirmacion" id="user_pwd_confirmation">
                                 <p>Utilizar 8 caracteres como mínimo con una combinación de letras, núermos y símbolos</p> 
                             </div>
         
@@ -47,8 +48,8 @@
                             </div>
                             
                             <div class="sesion">
-                                <input type="button" value="Iniciar sesión" onclick="process_sign_in_info();">
-                                <input type="button" value="Regístrate" onclick="location.href='/iniciosesion';">
+                                <input type="button" value="Registrarse" onclick="process_sign_in_info();">
+                                <input type="button" value="inicar sesion" onclick="location.href='/iniciosesion';">
                             </div>
                             
                         
@@ -59,6 +60,5 @@
     
         </main>
     </div>
-
 </body>
 </html>

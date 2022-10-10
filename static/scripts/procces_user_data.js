@@ -1,12 +1,11 @@
 function process_login_info(){
     var continue_next = true;
-    
     switch(true){
-        case(!("#user_email").val()):
+        case(!$("#user_email").val()):
             alert("Favor de ingresar su correo");
             continue_next = false;
         break;
-        case(!("#user_pwd").val()):
+        case(!$("#user_pwd").val()):
             alert("Favor de ingresar su contraseña");
             continue_next = false;
         break;
@@ -47,29 +46,28 @@ function process_login_info(){
 
 function process_sign_in_info(){
     var continue_next = true;
-    /*
     switch(true){
-        case(!("#user_name").val()):
+        case(!$("#user_name").val()):
             alert("Favor de ingresar su nombre");
             continue_next = false;
         break;
-        case(!("#user_lastname").val()):
+        case(!$("#user_lastname").val()):
             alert("Favor de ingresar su o sus apellidos");
             continue_next = false;
         break;
-        case(!("#user_email").val()):
+        case(!$("#user_email").val()):
             alert("Favor de ingresar su correo");
             continue_next = false;
         break;
-        case(!("#user_pwd").val()):
+        case(!$("#user_pwd").val()):
             alert("Favor de ingresar su contraseña");
             continue_next = false;
         break;
-        case(!("#user_pwd_confirmation").val()):
+        case(!$("#user_pwd_confirmation").val()):
             alert("Favor de ingresar su contraseña");
             continue_next = false;
         break;
-        case(("#user_pwd_confirmation").val() != ("#user_pwd").val()):
+        case(!$("#user_pwd_confirmation").val() != !$("#user_pwd").val()):
             alert("Las contraseñas no coinciden, favor de verificar");
             continue_next = false;
         break;
@@ -81,7 +79,7 @@ function process_sign_in_info(){
     if(continue_next == false){
         console.log("usuario invalido para registrar");
         return;
-    }*/
+    }
 
     let name = ("#user_name").val() + " " + ("#user_lastname").val()
     let user_sign_up_data = {   'name'      :   name,
@@ -97,8 +95,9 @@ function process_sign_in_info(){
         dataType    :   "json",
     
         success: function (data)    {
-            if (data.register == True){
+            if (data.register == 1){
                 alert("usuario registrado")
+                location.replace("/homepage")
             }
             if (data.register == "Exist"){
                 alert("Correo ya registrado, favor de probar con otro")

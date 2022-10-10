@@ -1,12 +1,13 @@
 from datetime import date, datetime,timedelta
 import email
 from importlib.resources import contents
+import json
+import jwt
 from msilib.schema import Signature
 from turtle import update
 from flask import Flask, render_template, request, url_for, make_response, redirect
-from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import func, desc
+from sqlalchemy import func, desc, true
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from Models.reservations import reservationSchema, Reservations
@@ -19,8 +20,7 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 import re
 
 #Se crea la app en flaks
-app = Flask(__name__, template_folder='templates', static_folder='static')
-Bootstrap(app)
+app = Flask(__name__)
 app.config.from_pyfile('config.cfg')
 '''
 app.config['MAIL_SERVER']   = 'smtp.gmail.com'
@@ -35,7 +35,8 @@ bcrypt = Bcrypt(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8412@localhost/ctdb.db'
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
+#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
+app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
 #Creamos llave secreta
 app.config['SECRET_KEY'] = 'COOLDUDE'
 #Se inicializa la base de datos 
@@ -43,6 +44,8 @@ db = SQLAlchemy(app)
 
 s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 mail = Mail(app)
+
+TheKey = app.config['SECRET_KEY']
 
 mail_settings = {
     "MAIL_SERVER"
@@ -56,34 +59,21 @@ def authenticate(username, password):
         return user
 
 #obtenemos el id del usuario para saber su identidad
-def identity(payload):
-    user_id = payload['identity']
-    return User.query.filter(User.id==user_id).first()
 
-jwt = JWT(app, authenticate, identity)
+def creatJWT(jsnDict):
+    return jwt.encode(jsnDict, app.config['SECRET_KEY'], algorithm="HS256")
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-'''
-@app.route("/", methods=['GET', 'POST'])
-def index():
-    if request.method == 'GET':
-        return '<form action="/" method="POST"><input name="email"><input type="submit"></form>'
+def jwtValidated(token):
+    try:
+        jwt.decode(token, app.config['SECRET_KEY'], algorithm="HS256")
+    except jwt.InvalidSignatureError:
+        print("There was an attempt to use an invalid JWT Signature")
+        return False
+    except Exception as e:
+        print(e)
+        return False
     else:
-        email       = request.form['email']
-        token       = s.dumps(email, salt='email-confirm')
-
-        msg         = Message('Confirm Email', sender='peposmith117@gmail.com', recipients=[email])
-        link        = url_for('emailConfirmation', token=token, external=True)
-        
-        msg.body    = 'Your link is: {}'.format(link)
-
-        mail.send(msg)
-
-        return '<h1>The email was {}. We send an email so you can confirm your account with:{}</h1>'.format(email, token)
-'''
+        return True
 
 
 @app.route('/emailConfirmation/<token>')
@@ -122,27 +112,35 @@ def creat_user():
         user_schema = userSchema()
         user = user_schema.load(body, session=db.session)
         user.save()
-        return user_schema.dump(user)
+        res = {"register":1}
+        return json.dumps(res)
     else:
-        return "Exist"
+        res = {"register":"Exist"}
+        return json.dumps(res)
 
 @app.route("/user/login", methods=["PUT"])
 def userLogin():
     body = request.get_json()
-    user = User.query.filter_by(email=body.get("email")).first()
+    resp = make_response()
+    user = User.query.with_entities(User.id, User.email, User.admin, User.superAdmin, User.pwd).filter(User.email == body.get("email")).first()
     user_schema = userSchema()
     if (user != None):
         if(user.block == 1):
             if(body.get("pwd") == user.pwd):
-                return user_schema.dumps(user)
+                user.pop("pwd")
+                respbody = json.dumps({"register":1,})
+                resp.set_cookie("CBT", jwt.encode(user, TheKey, algorithm="HS256"))
+                return json.dumps(res)
             else:
-                return "Wrong password"
+                res = {"register":1}
+                return json.dumps(res)
         else:
-            return "User not available"
+            res = {"register":1}
+            return json.dumps(res)
     else:
-        return "User not exist"
+        res = {"register":1}
+        return json.dumps(res)
             
-
 @app.route("/content/create", methods=['POST']) #Se crea un nuevo contenido:
 def creat_content():
     body = request.get_json()
@@ -170,9 +168,17 @@ def delete_user(id):
 
     return "User successfully deleted"
 
+@app.route("/app/delete/user/<id>", methods=["DELETE"])
+def app_delete_user(id):
+    user = User.query.filter_by(id=id).first()
+    user_Schema = userSchema()
+    user.deletedata()
+
+    return "User successfully deleted"
+
 @app.route("/getall/users", methods=["GET"])
 def get_all_users():
-    users = User.query.with_entities(User.id, User.name, User.email, User.admin, User.superAdmin, User.tecAssociate, User.block)
+    users = User.query.with_entities(User.id, User.name, User.email, User.admin, User.superAdmin, User.tecAssociate, User.block).filter(User.id == 1)
     user_schema = userSchema(many=True)
     return  user_schema.dumps(users)
 
@@ -184,6 +190,20 @@ def most_wanted_content():
     
 @app.route('/reservations/create', methods=["POST"])#Se crea una nueva reservacion con el ID del usuario y del objeto a reservar
 def creat_reservation():
+    body    = request.get_json()
+    userId    = User.query.filter_by(id=body.pop("user")).first()
+    contentId = Content.query.filter_by(id=body.pop("content")).first()
+    start = body.pop("startDate")
+    end = body.pop("endDate")
+    Reservation_Schema = reservationSchema()
+    content_Schema = contentSchema()
+    body = Reservations(user=userId, content=contentId, startDate=start, endDate=end)
+    body.save()
+
+    return Reservation_Schema.dumps(body)
+
+@app.route('/app/reservations/create', methods=["POST"])#Se crea una nueva reservacion con el ID del usuario y del objeto a reservar
+def app_creat_reservation():
     body    = request.get_json()
     userId    = User.query.filter_by(id=body.pop("user")).first()
     contentId = Content.query.filter_by(id=body.pop("content")).first()
@@ -250,11 +270,96 @@ def update_user_data():
     user.updatedata()
     return "Change has been comited"
 
-@app.route('/protected')
-@jwt_required()
-def protected():
-    user_Schema=userSchema()
-    return '%s' % user_Schema.dump(current_identity)
+@app.route('/updateUser', methods=["PUT"])
+def app_update_user_data():
+    tec = '@tec.mx'
+    user_schema = userSchema()
+    body = request.get_json()
+    userId = body.pop("id")
+    assos = re.search(tec, body.get("email"))
+    user = User.query.filter_by(id=userId).first()
+    if(assos != None):
+        user.tecAssociate = 1
+    else:
+        user.tecAssociate = 0
+    user.email = body.get("email")
+    user.pwd=bcrypt.generate_password_hash(body["pwd"])
+    print(user_schema.dumps(user))
+    user.updatedata()
+    return "Change has been comited"
+
+'''RUTAS DE LA PAGINA PRINCIPAL'''
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route('/ajustes')
+def ajustes():
+    return render_template("ajustes.html")
+
+@app.route('/ayuda')
+def ayuda():
+    return render_template('ayuda.html')
+
+@app.route('/calender')
+def calender():
+    return render_template('calender.html')
+
+@app.route('/codigo.html')
+def codigo():
+    return render_template('codigo.html')
+
+@app.route('/confirmacion')
+def confirmacion():
+    return render_template('confirmacion.html')
+
+@app.route('/error')
+def error():
+    return render_template('error.html')
+
+@app.route('/historial')
+def historial():
+    return render_template('historial.html')
+
+@app.route('/homepage')
+def homepage():
+    return render_template('homepage.html')
+
+@app.route('/iniciosesion')
+def iniciosesion():
+    return render_template('iniciosesion.html')
+
+@app.route('/registro')
+def registro():
+    return render_template('registro.html')
+
+@app.route('/reservacionfis')
+def reservacionfis():
+    body = request.get_json()
+    res = Reservations.query.filter(Reservations.startDate == body.get("Date")).filter(Reservations.contentId == body.get("content")).with_entities(Reservations.startHour, Reservations.endHour)
+    reservation_schema = reservationSchema(many=True)
+    return render_template('reservacionfis.html')
+
+@app.route('/reservacionhard')
+def reservacionhard():
+    return render_template('reservacionhard.html')
+
+@app.route('/reservacionsoft')
+def reservacionsoft():
+    if jwtValidated(request.cookies.get('CBT')):
+        return render_template('reservacionsoft.html')
+    else:
+        render_template('registro.html')
+
+@app.route('/reservahome')
+def reservahome():
+    cont = Content.query.all()
+    content_schema = contentSchema(many=True)
+    return render_template('reservahome.html', content_schema.dumps(cont))
+
+@app.route("/pruebas")
+def pruebas():
+    return render_template('pruebas.html')
 
 if __name__ == '__main__':
     app.run
