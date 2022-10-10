@@ -147,12 +147,13 @@ def userLogin():
 @app.route("/content/create", methods=['POST']) #Se crea un nuevo contenido:
 def creat_content():
     body = request.get_json()
-    cont = Content.query.filter_by(name=body.get("name")).first()
+    cont = Content.query.filter(Content.name == body.get("name")).first()
     if (cont == None):
         content_schema = contentSchema()
+        print("valido")
         content = content_schema.load(body, session=db.session)
         content.save()
-        return content_schema.dump(Content) 
+        return content_schema.dump(content)
     return "Exist"
 
 @app.route("/delete/content/<id>", methods=["DELETE"])
@@ -165,14 +166,6 @@ def delete_cont(id):
 
 @app.route("/delete/user/<id>", methods=["DELETE"])
 def delete_user(id):
-    user = User.query.filter_by(id=id).first()
-    user_Schema = userSchema()
-    user.deletedata()
-
-    return "User successfully deleted"
-
-@app.route("/app/delete/user/<id>", methods=["DELETE"])
-def app_delete_user(id):
     user = User.query.filter_by(id=id).first()
     user_Schema = userSchema()
     user.deletedata()
@@ -337,6 +330,8 @@ def error():
 @app.route('/historial')
 def historial():
     if jwtValidated(request.cookies.get("jwt")):
+        userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
+        reservations = Reservations.query.filter(Reservations.userId == userdata["id"]).filter(Reservations.finish == 1).with_entities
         return render_template("historial.html")
     return redirect(url_for("registro"))
 
