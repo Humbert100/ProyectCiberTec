@@ -7,6 +7,7 @@ from msilib.schema import Signature
 from turtle import update
 from flask import Flask, render_template, request, url_for, make_response, redirect
 from flask_sqlalchemy import SQLAlchemy
+from pytz import timezone
 from sqlalchemy import func, desc, true
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
@@ -122,24 +123,26 @@ def creat_user():
 def userLogin():
     body = request.get_json()
     resp = make_response()
-    user = User.query.with_entities(User.id, User.email, User.admin, User.superAdmin, User.pwd).filter(User.email == body.get("email")).first()
+    user = User.query.with_entities(User.id, User.email, User.admin, User.superAdmin, User.pwd, User.block).filter(User.email == body.get("email")).first()
     user_schema = userSchema()
     if (user != None):
-        if(user.block == 1):
-            if(body.get("pwd") == user.pwd):
+        user = user_schema.dumps(user)
+        user = json.loads(user)
+        if(user["block"] == 1):
+            user.pop("block")
+            if(body.get("pwd") == user["pwd"]):
                 user.pop("pwd")
-                respbody = json.dumps({"register":1,})
-                resp.set_cookie("CBT", jwt.encode(user, TheKey, algorithm="HS256"))
-                return json.dumps(res)
+                #user["exp"] = datetime.now(timezone.utc) + timedelta(days=7)
+                respbody = json.dumps({"authorized":1})
+                resp.set_cookie("jwt", jwt.encode(user, TheKey, algorithm="HS256"))
             else:
-                res = {"register":1}
-                return json.dumps(res)
+                respbody = json.dumps({"authorized":"pwd"})
         else:
-            res = {"register":1}
-            return json.dumps(res)
+            respbody = json.dumps({"authorized":"available"})
     else:
-        res = {"register":1}
-        return json.dumps(res)
+        respbody = json.dumps({"authorized":"exist"})
+    resp.set_data(respbody)
+    return resp
             
 @app.route("/content/create", methods=['POST']) #Se crea un nuevo contenido:
 def creat_content():

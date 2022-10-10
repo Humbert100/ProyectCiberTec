@@ -15,12 +15,12 @@ function process_login_info(){
         return;
     }
 
-    let user_login_data = {'email'  :   $("user_email").val(),
-                           'pwd'    :   $("user_pwd").val()};
+    let user_login_data = {'email'  :   $("#user_email").val(),
+                           'pwd'    :   $("#user_pwd").val()};
     console.log(user_login_data)
 
     $.ajax({
-        type        :   "POST",
+        type        :   "PUT",
         url         :   "/user/login",
         data        :   JSON.stringify(user_login_data),
         contentType :   'application/json',
@@ -30,7 +30,7 @@ function process_login_info(){
             if (data.authorized == true)    {
                 location.replace("/homepage");
             }
-            else if(data.authorized == "exist"){
+            else if(data.authorized ==  "exist"){
                 alert("EL usuario no existe, favor de registrarse");
             }
             else if(data.authorized == "available"){
@@ -83,8 +83,8 @@ function process_sign_in_info(){
 
     let name = ("#user_name").val() + " " + ("#user_lastname").val()
     let user_sign_up_data = {   'name'      :   name,
-                                'email'     :   $("user_email").val(),
-                                'pwd'       :   $("user_pwd").val()};
+                                'email'     :   $("#user_email").val(),
+                                'pwd'       :   $("#user_pwd").val()};
     console.log(user_sign_up_data)
 
     $.ajax({
@@ -99,7 +99,7 @@ function process_sign_in_info(){
                 alert("usuario registrado")
                 location.replace("/homepage")
             }
-            if (data.register == "Exist"){
+            if (data.register == "exist"){
                 alert("Correo ya registrado, favor de probar con otro")
             }
         }
