@@ -67,7 +67,7 @@ function process_sign_in_info(){
             alert("Favor de ingresar su contraseña");
             continue_next = false;
         break;
-        case(!$("#user_pwd_confirmation").val() != !$("#user_pwd").val()):
+        case($("#user_pwd_confirmation").val() != $("#user_pwd").val()):
             alert("Las contraseñas no coinciden, favor de verificar");
             continue_next = false;
         break;
@@ -81,8 +81,10 @@ function process_sign_in_info(){
         return;
     }
 
-    let name = ("#user_name").val() + " " + ("#user_lastname").val()
-    let user_sign_up_data = {   'name'      :   name,
+    let name = $("#user_name").val()
+    let lastname = $("#user_lastname").val()
+    let fullname = name + lastname
+    let user_sign_up_data = {   'name'      :   fullname,
                                 'email'     :   $("#user_email").val(),
                                 'pwd'       :   $("#user_pwd").val()};
     console.log(user_sign_up_data)
@@ -90,14 +92,15 @@ function process_sign_in_info(){
     $.ajax({
         url         :   "/user/create",
         type        :   "POST",
-        data        :   JSON.stringify(user_login_data),
+        data        :   JSON.stringify(user_sign_up_data),
         contentType :   'application/json',
         dataType    :   "json",
     
         success: function (data)    {
             if (data.register == 1){
                 alert("usuario registrado")
-                location.replace("/homepage")
+                console.log("Se logro")
+                location.replace("/iniciosesion")
             }
             if (data.register == "exist"){
                 alert("Correo ya registrado, favor de probar con otro")

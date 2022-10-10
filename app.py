@@ -15,7 +15,7 @@ from Models.reservations import reservationSchema, Reservations
 from Models.user import User, userSchema
 from Models.content import Content, contentSchema
 from flask_jwt import JWT, jwt_required, current_identity
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 import re
@@ -67,7 +67,7 @@ def creatJWT(jsnDict):
 def jwtValidated(token):
     try:
         jwt.decode(token, app.config['SECRET_KEY'], algorithm="HS256")
-    except jwt.InvalidSignatureError:
+    except jwt.InvalidTokenError:
         print("There was an attempt to use an invalid JWT Signature")
         return False
     except Exception as e:
@@ -294,75 +294,98 @@ def app_update_user_data():
 '''RUTAS DE LA PAGINA PRINCIPAL'''
 @app.route("/")
 def index():
+    if jwtValidated(request.cookies.get("jwt")):
+        return redirect(url_for("homepage"))
     return render_template("index.html")
 
 @app.route('/ajustes')
 def ajustes():
-    return render_template("ajustes.html")
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("ajustes.html")
+    return redirect(url_for("registro"))
 
 @app.route('/ayuda')
 def ayuda():
-    return render_template('ayuda.html')
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("ayuda.html")
+    return redirect(url_for("registro"))
 
 @app.route('/calender')
 def calender():
-    return render_template('calender.html')
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("calender.html")
+    return redirect(url_for("registro"))
 
 @app.route('/codigo.html')
 def codigo():
-    return render_template('codigo.html')
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("codigo.html")
+    return redirect(url_for("registro"))
 
 @app.route('/confirmacion')
 def confirmacion():
-    return render_template('confirmacion.html')
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("confirmacion.html")
+    return redirect(url_for("registro"))
 
 @app.route('/error')
 def error():
-    return render_template('error.html')
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("error.html")
+    return redirect(url_for("registro"))
 
 @app.route('/historial')
 def historial():
-    return render_template('historial.html')
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("historial.html")
+    return redirect(url_for("registro"))
 
 @app.route('/homepage')
 def homepage():
-    return render_template('homepage.html')
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("homepage.html")
+    return redirect(url_for("registro"))
 
 @app.route('/iniciosesion')
 def iniciosesion():
-    return render_template('iniciosesion.html')
+    if jwtValidated(request.cookies.get("jwt")):
+        return redirect(url_for("homepage"))
+    return render_template("iniciosesion.html")
 
 @app.route('/registro')
 def registro():
-    return render_template('registro.html')
+    if jwtValidated(request.cookies.get("jwt")):
+        return redirect(url_for("homepage"))
+    return render_template("registro.html")
 
 @app.route('/reservacionfis')
 def reservacionfis():
     body = request.get_json()
     res = Reservations.query.filter(Reservations.startDate == body.get("Date")).filter(Reservations.contentId == body.get("content")).with_entities(Reservations.startHour, Reservations.endHour)
     reservation_schema = reservationSchema(many=True)
-    return render_template('reservacionfis.html')
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("reservacionfis.html")
+    return redirect(url_for("registro"))
 
 @app.route('/reservacionhard')
 def reservacionhard():
-    return render_template('reservacionhard.html')
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("reservacionhard.html")
+    return redirect(url_for("registro"))
 
 @app.route('/reservacionsoft')
 def reservacionsoft():
-    if jwtValidated(request.cookies.get('CBT')):
-        return render_template('reservacionsoft.html')
-    else:
-        render_template('registro.html')
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("reservacionsoft.html")
+    return redirect(url_for("registro"))
 
 @app.route('/reservahome')
 def reservahome():
     cont = Content.query.all()
     content_schema = contentSchema(many=True)
-    return render_template('reservahome.html', content_schema.dumps(cont))
-
-@app.route("/pruebas")
-def pruebas():
-    return render_template('pruebas.html')
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("reservahome.html")
+    return redirect(url_for("registro"))
 
 if __name__ == '__main__':
     app.run
