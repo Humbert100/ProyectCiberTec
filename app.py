@@ -1,20 +1,16 @@
-from datetime import date, datetime,timedelta
+from datetime import datetime,timedelta
 import email
-from importlib.resources import contents
 import json
 import jwt
-from msilib.schema import Signature
-from turtle import update
 from flask import Flask, render_template, request, url_for, make_response, redirect
 from flask_sqlalchemy import SQLAlchemy
 from pytz import timezone
-from sqlalchemy import func, desc, true
+from sqlalchemy import func
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from Models.reservations import reservationSchema, Reservations
 from Models.user import User, userSchema
 from Models.content import Content, contentSchema
-from flask_jwt import JWT, jwt_required, current_identity
 from datetime import datetime, timedelta, timezone
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
@@ -36,8 +32,8 @@ bcrypt = Bcrypt(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8412@localhost/ctdb.db'
 CORS(app)
-#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
-app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
+app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
+#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
 #Creamos llave secreta
 app.config['SECRET_KEY'] = 'COOLDUDE'
 #Se inicializa la base de datos 
@@ -76,6 +72,13 @@ def jwtValidated(token):
     else:
         return True
 
+def getHours(date1, date2):
+    date_obj1 = datetime.strptime(date1, "%Y-%m-%d %H:%M:%S.%f")
+    date_obj2 = datetime.strptime(date2, "%Y-%m-%d %H:%M:%S.%f")
+
+    date_dif = date_obj2 - date_obj1
+    date_dif = date_dif.total_seconds() / 60 ** 2
+    return date_dif
 
 @app.route('/emailConfirmation/<token>')
 def emailConfirmation(token):
@@ -132,7 +135,7 @@ def userLogin():
             user.pop("block")
             if(body.get("pwd") == user["pwd"]):
                 user.pop("pwd")
-                #user["exp"] = datetime.now(timezone.utc) + timedelta(days=7)
+                user["exp"] = datetime.now(timezone.utc) + timedelta(days=1)
                 respbody = json.dumps({"authorized":1})
                 resp.set_cookie("jwt", jwt.encode(user, TheKey, algorithm="HS256"))
             else:
@@ -187,7 +190,8 @@ def most_wanted_content():
 @app.route('/reservations/create', methods=["POST"])#Se crea una nueva reservacion con el ID del usuario y del objeto a reservar
 def creat_reservation():
     body    = request.get_json()
-    userId    = User.query.filter_by(id=body.pop("user")).first()
+    userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
+    userId    = User.query.filter(User.id == userdata["id"]).first()
     contentId = Content.query.filter_by(id=body.pop("content")).first()
     start = body.pop("startDate")
     end = body.pop("endDate")
@@ -201,12 +205,12 @@ def creat_reservation():
 @app.route('/app/reservations/create', methods=["POST"])#Se crea una nueva reservacion con el ID del usuario y del objeto a reservar
 def app_creat_reservation():
     body    = request.get_json()
-    userId    = User.query.filter_by(id=body.pop("user")).first()
+    userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
+    userId    = User.query.filter(User.id == userdata["id"]).first()
     contentId = Content.query.filter_by(id=body.pop("content")).first()
     start = body.pop("startDate")
     end = body.pop("endDate")
     Reservation_Schema = reservationSchema()
-    content_Schema = contentSchema()
     body = Reservations(user=userId, content=contentId, startDate=start, endDate=end)
     body.save()
 
@@ -327,11 +331,31 @@ def error():
         return render_template("error.html")
     return redirect(url_for("registro"))
 
+@app.route('/pruebas')
+def pruebas():
+    if jwtValidated(request.cookies.get("jwt")):
+        userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
+        #userReservations = Reservations.query.filter(Reservations.userId == userdata["id"]).filter(Reservations.finish == 0)
+        userReservations = Reservations.query.filter(Reservations.userId == userdata["id"])
+        reservation_schema = reservationSchema(many=True)
+        reservation_schema = reservation_schema.dumps(userReservations)
+        reser = json.loads(reservation_schema)
+        content_schema = contentSchema()
+        print(reser[0]["id"])
+        for i in reser:
+            content = Content.query.filter(Content.id == i["id"]).first()
+            i.pop("id")
+            contn = json.loads(content_schema.dumps(content))
+            print(str(contn["name"]))
+            i["contentname"] = str(contn["name"])
+        return(reser)
+    return  "NOT"
+
 @app.route('/historial')
 def historial():
     if jwtValidated(request.cookies.get("jwt")):
         userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
-        reservations = Reservations.query.filter(Reservations.userId == userdata["id"]).filter(Reservations.finish == 1).with_entities
+        reservations = Reservations.query.filter(Reservations.userId == userdata["id"])
         return render_template("historial.html")
     return redirect(url_for("registro"))
 
@@ -356,7 +380,7 @@ def registro():
 @app.route('/reservacionfis')
 def reservacionfis():
     body = request.get_json()
-    res = Reservations.query.filter(Reservations.startDate == body.get("Date")).filter(Reservations.contentId == body.get("content")).with_entities(Reservations.startHour, Reservations.endHour)
+    res = Reservations.query.filter(Reservations.startDate == body.get("Date")).filter(Reservations.contentId == body.get("content")).with_entities(Reservations.startHour, Reservations.endHour, Content.name)
     reservation_schema = reservationSchema(many=True)
     if jwtValidated(request.cookies.get("jwt")):
         return render_template("reservacionfis.html")
