@@ -4,7 +4,6 @@ import json
 import jwt
 from flask import Flask, render_template, request, url_for, make_response, redirect
 from flask_sqlalchemy import SQLAlchemy
-from pytz import timezone
 from sqlalchemy import func
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
@@ -12,7 +11,7 @@ from Models.reservations import reservationSchema, Reservations
 from Models.user import User, userSchema
 from Models.content import Content, contentSchema
 from datetime import datetime, timedelta, timezone
-from flask_mail import Mail, Message
+from flask_mail import Mail
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 import re
 
@@ -80,7 +79,7 @@ def getHours(date1, date2):
     date_dif = date_dif.total_seconds() / 60 ** 2
     return date_dif
 
-@app.route('/emailConfirmation/<token>')
+@app.route('/emailConfirmagetion/<token>')
 def emailConfirmation(token):
     try:
         email = s.loads(token, salt='email-confirm', max_age=300)
@@ -288,6 +287,47 @@ def app_update_user_data():
     user.updatedata()
     return "Change has been comited"
 
+app.route("/historial/app", methods=["GET"])
+def app_historial():
+    #userReservations = Reservations.query.filter(Reservations.userId == 10)
+    return("So far so good")
+    '''
+    userReservations = Reservations.query.filter(Reservations.userId == id)
+    reservation_schema = reservationSchema(many=True)
+    reservation_schema = reservation_schema.dumps(userReservations)
+    reser = json.loads(reservation_schema)
+    content_schema = contentSchema()
+    for i in reser:
+        content = Content.query.filter(Content.id == i["id"]).first()
+        i.pop("id")
+        contn = json.loads(content_schema.dumps(content))
+        i["contentname"] = str(contn["name"])
+        totalhours = getHours(i["startDate"], i["endDate"])
+        i.pop("endDate")
+        i.pop("finish")
+        i["total"] = int(totalhours)
+    return(reser)'''
+
+
+
+@app.route('/pruebas')
+def pruebas():
+    userReservations = Reservations.query.filter(Reservations.userId == 10)
+    reservation_schema = reservationSchema(many=True)
+    reservation_schema = reservation_schema.dumps(userReservations)
+    reser = json.loads(reservation_schema)
+    content_schema = contentSchema()
+    for i in reser:
+        content = Content.query.filter(Content.id == i["id"]).first()
+        i.pop("id")
+        contn = json.loads(content_schema.dumps(content))
+        i["contentname"] = str(contn["name"])
+        totalhours = getHours(i["startDate"], i["endDate"])
+        i.pop("endDate")
+        i.pop("finish")
+        i["total"] = int(totalhours)
+    return(reser)
+
 '''RUTAS DE LA PAGINA PRINCIPAL'''
 @app.route("/")
 def index():
@@ -331,11 +371,10 @@ def error():
         return render_template("error.html")
     return redirect(url_for("registro"))
 
-@app.route('/pruebas')
-def pruebas():
+@app.route('/historial')
+def historial():
     if jwtValidated(request.cookies.get("jwt")):
         userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
-        #userReservations = Reservations.query.filter(Reservations.userId == userdata["id"]).filter(Reservations.finish == 0)
         userReservations = Reservations.query.filter(Reservations.userId == userdata["id"])
         reservation_schema = reservationSchema(many=True)
         reservation_schema = reservation_schema.dumps(userReservations)
@@ -348,15 +387,7 @@ def pruebas():
             contn = json.loads(content_schema.dumps(content))
             print(str(contn["name"]))
             i["contentname"] = str(contn["name"])
-        return(reser)
-    return  "NOT"
-
-@app.route('/historial')
-def historial():
-    if jwtValidated(request.cookies.get("jwt")):
-        userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
-        reservations = Reservations.query.filter(Reservations.userId == userdata["id"])
-        return render_template("historial.html")
+        return render_template("historial.html", data=reser)
     return redirect(url_for("registro"))
 
 @app.route('/homepage')
@@ -407,4 +438,5 @@ def reservahome():
     return redirect(url_for("registro"))
 
 if __name__ == '__main__':
-    app.run
+    app.debug = True
+    app.run()

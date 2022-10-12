@@ -71,7 +71,7 @@ function process_sign_in_info(){
             alert("Las contraseñas no coinciden, favor de verificar");
             continue_next = false;
         break;
-        case(document.getElementById("checkbox").value == false):
+        case(document.getElementById("checkbox").value == true):
             alert("Porfavor, acepta los terminos y condiciones")
             continue_next = false
         break;
