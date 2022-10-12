@@ -1,10 +1,9 @@
-from datetime import datetime,timedelta
 import email
 import json
 import jwt
 from flask import Flask, render_template, request, url_for, make_response, redirect
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import func
+from sqlalchemy import func, true
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from Models.reservations import reservationSchema, Reservations
@@ -121,6 +120,12 @@ def creat_user():
         res = {"register":"Exist"}
         return json.dumps(res)
 
+@app.route("/logout")
+def logout():
+    resp = make_response(redirect(url_for("index")))
+    resp.set_cookie("jwt", expires=0)
+    return resp
+
 @app.route("/user/login", methods=["PUT"])
 def userLogin():
     body = request.get_json()
@@ -136,7 +141,7 @@ def userLogin():
                 user.pop("pwd")
                 user["exp"] = datetime.now(timezone.utc) + timedelta(days=1)
                 respbody = json.dumps({"authorized":1})
-                resp.set_cookie("jwt", jwt.encode(user, TheKey, algorithm="HS256"))
+                resp.set_cookie("jwt", jwt.encode(user, TheKey, algorithm="HS256"), expires= datetime.now(timezone.utc) + timedelta(seconds=10))
             else:
                 respbody = json.dumps({"authorized":"pwd"})
         else:
@@ -145,6 +150,27 @@ def userLogin():
         respbody = json.dumps({"authorized":"exist"})
     resp.set_data(respbody)
     return resp
+
+@app.route("/user/login/app", methods=["PUT"])
+def userLoginApp():
+    body = request.get_json()
+    user = User.query.with_entities(User.id, User.email, User.admin, User.superAdmin, User.pwd, User.block).filter(User.email == body.get("email")).first()
+    user_schema = userSchema()
+    if (user != None):
+        user = user_schema.dumps(user)
+        user = json.loads(user)
+        if(user["block"] == 1):
+            user.pop("block")
+            if(body.get("pwd") == user["pwd"]):
+                user.pop("pwd")
+                respbody = json.dumps({"authorized":1, "id":user["id"], "email":user["email"]})
+            else:
+                respbody = json.dumps({"authorized":"pwd"})
+        else:
+            respbody = json.dumps({"authorized":"available"})
+    else:
+        respbody = json.dumps({"authorized":"exist"})
+    return respbody
             
 @app.route("/content/create", methods=['POST']) #Se crea un nuevo contenido:
 def creat_content():
@@ -287,32 +313,9 @@ def app_update_user_data():
     user.updatedata()
     return "Change has been comited"
 
-app.route("/historial/app", methods=["GET"])
-def app_historial():
-    #userReservations = Reservations.query.filter(Reservations.userId == 10)
-    return("So far so good")
-    '''
-    userReservations = Reservations.query.filter(Reservations.userId == id)
-    reservation_schema = reservationSchema(many=True)
-    reservation_schema = reservation_schema.dumps(userReservations)
-    reser = json.loads(reservation_schema)
-    content_schema = contentSchema()
-    for i in reser:
-        content = Content.query.filter(Content.id == i["id"]).first()
-        i.pop("id")
-        contn = json.loads(content_schema.dumps(content))
-        i["contentname"] = str(contn["name"])
-        totalhours = getHours(i["startDate"], i["endDate"])
-        i.pop("endDate")
-        i.pop("finish")
-        i["total"] = int(totalhours)
-    return(reser)'''
-
-
-
-@app.route('/pruebas')
-def pruebas():
-    userReservations = Reservations.query.filter(Reservations.userId == 10)
+@app.route("/historial/app/<id>", methods=["GET"])
+def app_historial(id):
+    userReservations = Reservations.query.filter(Reservations.userId == id).filter(Reservations.finish == 1)
     reservation_schema = reservationSchema(many=True)
     reservation_schema = reservation_schema.dumps(userReservations)
     reser = json.loads(reservation_schema)
@@ -327,6 +330,18 @@ def pruebas():
         i.pop("finish")
         i["total"] = int(totalhours)
     return(reser)
+
+
+
+@app.route('/pruebas')
+def pruebas():
+    if jwtValidated(request.cookies.get("jwt")):
+        contentFis  = Content.query.filter(Content.type == "EF")
+        contenthard = Content.query.filter(Content.type == "hardware")
+        contentsoft = Content.query.filter(Content.type == "software")
+        content_schema = contentSchema(many=True)
+        return content_schema.dumps(contentFis)
+    return "sin cookie"
 
 '''RUTAS DE LA PAGINA PRINCIPAL'''
 @app.route("/")
@@ -375,7 +390,7 @@ def error():
 def historial():
     if jwtValidated(request.cookies.get("jwt")):
         userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
-        userReservations = Reservations.query.filter(Reservations.userId == userdata["id"])
+        userReservations = Reservations.query.filter(Reservations.userId == userdata["id"]).filter(Reservations.finish == 1)
         reservation_schema = reservationSchema(many=True)
         reservation_schema = reservation_schema.dumps(userReservations)
         reser = json.loads(reservation_schema)

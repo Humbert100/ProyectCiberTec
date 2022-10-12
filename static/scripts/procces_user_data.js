@@ -28,7 +28,7 @@ function process_login_info(){
 
         success: function (data){
             if (data.authorized == true)    {
-                location.replace("/homepage");
+                //location.replace("/homepage");
             }
             else if(data.authorized ==  "exist"){
                 alert("EL usuario no existe, favor de registrarse");
@@ -45,6 +45,9 @@ function process_login_info(){
 }
 
 function process_sign_in_info(){
+
+    var emailregex = /^[a-zA-z0-9_.+-]+@[a-zA-z0-9-]+\.[a-zA-z0-9-.]+$/
+
     var continue_next = true;
     switch(true){
         case(!$("#user_name").val()):
@@ -59,6 +62,10 @@ function process_sign_in_info(){
             alert("Favor de ingresar su correo");
             continue_next = false;
         break;
+        case(emailregex.test($("#user_email").val())):
+            alert("No es un correo electronico, favor de verificar")
+            continue_next = false;
+
         case(!$("#user_pwd").val()):
             alert("Favor de ingresar su contraseña");
             continue_next = false;
@@ -80,6 +87,7 @@ function process_sign_in_info(){
         console.log("usuario invalido para registrar");
         return;
     }
+    
 
     let name = $("#user_name").val()
     let lastname = $("#user_lastname").val()
