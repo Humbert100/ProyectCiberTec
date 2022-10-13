@@ -1,0 +1,30 @@
+
+func validateEmail(email: String) -> Bool {
+    do{
+        let emailregex = #"^[a-zA-z0-9_.+-]+@[a-zA-z0-9-]+\.[a-zA-z0-9-.]+$"#
+        let emailregextest = try NSRegularExpression(pattern: emailregex, options: caseInsensitive)
+        if emailregextest.firstMatch(in: email, options: [], range: range) != nil {
+            return true
+        } else {
+            return false
+        }
+    } catch let error {
+        print(error.localizedDescription)
+        return false
+    }
+}
+
+func validatePwd(pwd: String) -> Bool {
+    do{
+        let pwdregex = #"^.{8,}$"#
+        let pwdregextest = try NSRegularExpression(pattern: pwdregex, options: caseInsensitive)
+        if pwdregextest.firstMatch(in: pwd, options: [], range: range) != nil {
+            return true
+        } else {
+            return false
+        }
+    } catch let error {
+        print(error.localizedDescription)
+        return false
+    }
+}

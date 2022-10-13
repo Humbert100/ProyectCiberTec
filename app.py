@@ -3,7 +3,7 @@ import json
 import jwt
 from flask import Flask, render_template, request, url_for, make_response, redirect
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import func, true
+from sqlalchemy import func, true, desc
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from Models.reservations import reservationSchema, Reservations
@@ -60,7 +60,7 @@ def creatJWT(jsnDict):
 
 def jwtValidated(token):
     try:
-        jwt.decode(token, app.config['SECRET_KEY'], algorithm="HS256")
+        jwt.decode(token, app.config['SECRET_KEY'], algorithms="HS256")
     except jwt.InvalidTokenError:
         print("There was an attempt to use an invalid JWT Signature")
         return False
@@ -141,7 +141,7 @@ def userLogin():
                 user.pop("pwd")
                 user["exp"] = datetime.now(timezone.utc) + timedelta(days=1)
                 respbody = json.dumps({"authorized":1})
-                resp.set_cookie("jwt", jwt.encode(user, TheKey, algorithm="HS256"), expires= datetime.now(timezone.utc) + timedelta(seconds=10))
+                resp.set_cookie("jwt", jwt.encode(user, TheKey, algorithm="HS256"), expires= datetime.now(timezone.utc) + timedelta(days=7))
             else:
                 respbody = json.dumps({"authorized":"pwd"})
         else:
@@ -336,12 +336,33 @@ def app_historial(id):
 @app.route('/pruebas')
 def pruebas():
     if jwtValidated(request.cookies.get("jwt")):
-        contentFis  = Content.query.filter(Content.type == "EF")
-        contenthard = Content.query.filter(Content.type == "hardware")
-        contentsoft = Content.query.filter(Content.type == "software")
-        content_schema = contentSchema(many=True)
-        return content_schema.dumps(contentFis)
-    return "sin cookie"
+        data = []
+        test = db.session.query(func.count(Reservations.id).label('qty')).group_by(Reservations.contentId).order_by(desc('qty'))
+        print(test[1])
+        #return render_template("pruebas.html")
+        return "Hola"
+    return redirect(url_for("index"))
+    
+'''
+
+@app.route('/pruebas')
+def pruebas():
+    contentFis  = Content.query.filter(Content.type == "EF").with_entities(Content.name, Content.description, Content.type)
+    contenthard = Content.query.filter(Content.type == "hardware").with_entities(Content.name, Content.description, Content.type)
+    contentsoft = Content.query.filter(Content.type == "software").with_entities(Content.name, Content.description, Content.type)
+    content_schema = contentSchema(many=True)
+    contentFis = content_schema.dumps(contentFis)
+    contenthard = content_schema.dumps(contenthard)
+    contentsoft = content_schema.dumps(contentsoft)
+    data = []
+    allcont = [json.loads(contentFis), json.loads(contenthard), json.loads(contentsoft)]
+    for i in allcont:
+        for j in i:
+            data.append([(j["name"], j["type"], j["description"])])
+
+    print(data)
+    return render_template("pruebas.html")'''
+
 
 '''RUTAS DE LA PAGINA PRINCIPAL'''
 @app.route("/")
@@ -395,18 +416,17 @@ def historial():
         reservation_schema = reservation_schema.dumps(userReservations)
         reser = json.loads(reservation_schema)
         content_schema = contentSchema()
-        print(reser[0]["id"])
         for i in reser:
             content = Content.query.filter(Content.id == i["id"]).first()
             i.pop("id")
             contn = json.loads(content_schema.dumps(content))
-            print(str(contn["name"]))
             i["contentname"] = str(contn["name"])
         return render_template("historial.html", data=reser)
     return redirect(url_for("registro"))
 
 @app.route('/homepage')
 def homepage():
+    print(jwt.decode(request.cookies.get("jwt"), app.config['SECRET_KEY'], algorithms="HS256"))
     if jwtValidated(request.cookies.get("jwt")):
         return render_template("homepage.html")
     return redirect(url_for("registro"))
@@ -449,7 +469,14 @@ def reservahome():
     cont = Content.query.all()
     content_schema = contentSchema(many=True)
     if jwtValidated(request.cookies.get("jwt")):
-        return render_template("reservahome.html")
+        contentFis  = Content.query.filter(Content.type == "EF")
+        contenthard = Content.query.filter(Content.type == "hardware")
+        contentsoft = Content.query.filter(Content.type == "software")
+        content_schema = contentSchema(many=True)
+        contentFis = content_schema.dumps(contentFis)
+        contenthard = content_schema.dumps(contenthard)
+        contentsoft = content_schema.dumps(contentsoft)
+        allcont = [json.loads(contentFis), json.loads(contenthard), json.loads(contentsoft)]
     return redirect(url_for("registro"))
 
 if __name__ == '__main__':

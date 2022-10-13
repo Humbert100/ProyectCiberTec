@@ -14,10 +14,10 @@ class User(db.Model):
     name        =   db.Column(db.String(100), nullable=False)
     email       =   db.Column(db.String(100), unique=True, nullable=False)
     pwd         =   db.Column(db.String(100), nullable=False)
-    admin       =   db.Column(db.Integer, default=0)
-    superAdmin  =   db.Column(db.Integer, default=0)
-    tecAssociate=   db.Column(db.Integer)
-    block       =   db.Column(db.Integer, default=1)
+    admin       =   db.Column(db.Boolean, default=0)
+    superAdmin  =   db.Column(db.Boolean, default=0)
+    tecAssociate=   db.Column(db.Boolean)
+    block       =   db.Column(db.Boolean, default=1)
     Reservation =   db.relationship("Reservations", backref='user', cascade="all, delete")
 
     def updatedata(self):
