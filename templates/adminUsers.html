@@ -2,24 +2,15 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <link type="text/css" rel="preload" href="{{ url_for('static',filename='styles/crud_style.css') }}" as="style">
+    <script type="text/javascript" src="{{ url_for('static',filename='scripts/user_crud_func.js') }}"></script>
 </head>
 <body>
-    <div class="single_row_user" id="${obj.id}">
-        <div><a href='#' style="text-decoration-color: black;"><p id="row_user">${obj.id}</p></a></div>
-        <div><p id="row_email">${obj.email}</p></div>
-        <div><p id="row_name">${obj.name}</p></div>
-        <div><label for="row_admin">${obj.admin}</label>
-            <select id="row_admin" name="${obj.admin}">
-                <option value="True">True</option>
-                <option value="True">False</option>
-            </select>
-        </div>
-        <div><label for="row_super_admin">${obj.superAdmin}</label>
-            <select id="row_super_admin" name="${obj.superAdmin}">
-                <option value="True">True</option>
-                <option value="True">False</option>
-            </select>
-        </div>
+    <div class="navbar" id="navbar_id">
+        <p>CYBERTEC</p>
+    </div>
+
+    <div class=""></div>
 <body

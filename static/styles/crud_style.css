@@ -72,6 +72,16 @@ p{
     background-color: transparent;
 }
 
+.user_info_div{
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-image: ;
+}
+
 .main_div{
     width: 100vw;
     height: 100vh;
