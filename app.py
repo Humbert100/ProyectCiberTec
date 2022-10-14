@@ -104,6 +104,8 @@ def creat_user():
     tec = '@tec.mx'
     body = request.get_json()
     user = User.query.filter_by(email=body.get("email")).first()
+    userpwd = bytes(str(body["pwd"]), 'utf8')
+    body["pwd"] = (hashlib.sha256((userpwd))).hexdigest()
     if (user == None):
         assos = re.search(tec, body.get("email"))
         if(assos != None):
@@ -131,13 +133,16 @@ def logout():
 def userLogin():
     body = request.get_json()
     resp = make_response()
-    user = User.query.with_entities(User.id, User.email, User.admin, User.superAdmin, User.pwd, User.block).filter(User.email == body.get("email")).first()
+    user = User.query.with_entities(User.id, User.email, User.admin, User.superAdmin, User.pwd, User.block, User.verified).filter(User.email == body.get("email")).first()
     user_schema = userSchema()
     if (user != None):
         user = user_schema.dumps(user)
         user = json.loads(user)
-        if(user["block"] == 1):
+        if(user["verified"] == 1):
             user.pop("block")
+            user.pop("verified")
+            userpwd = bytes(str(body["pwd"]), 'utf8')
+            body["pwd"] = (hashlib.sha256((userpwd))).hexdigest()
             if(body.get("pwd") == user["pwd"]):
                 user.pop("pwd")
                 user["exp"] = datetime.now(timezone.utc) + timedelta(days=1)
@@ -336,8 +341,9 @@ def app_historial(id):
 @app.route('/pruebas', methods=["POST"])
 def pruebas():
     body = request.get_json()
-    getuser = User.query.filter(User.id == 10).first()
-    print(getuser)
+    userpwd = bytes(str(body["pwd"]), 'utf8')
+    body["pwd"] = (hashlib.sha256((userpwd))).hexdigest()
+    print(body["pwd"])
     user_schema = userSchema()
     
     return "Work?"
