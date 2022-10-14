@@ -142,7 +142,7 @@ def userLogin():
             user.pop("block")
             user.pop("verified")
             userpwd = bytes(str(body["pwd"]), 'utf8')
-            body["pwd"] = (hashlib.sha256((userpwd))).hexdigest()
+            #body["pwd"] = (hashlib.sha256((userpwd))).hexdigest()
             if(body.get("pwd") == user["pwd"]):
                 user.pop("pwd")
                 user["exp"] = datetime.now(timezone.utc) + timedelta(days=1)
@@ -338,15 +338,11 @@ def app_historial(id):
     return(reser)
 
 
-@app.route('/pruebas', methods=["POST"])
+@app.route('/pruebas')
 def pruebas():
-    body = request.get_json()
-    userpwd = bytes(str(body["pwd"]), 'utf8')
-    body["pwd"] = (hashlib.sha256((userpwd))).hexdigest()
-    print(body["pwd"])
-    user_schema = userSchema()
-    
-    return "Work?"
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("historial.html")
+    return redirect(url_for("homepage"))
 
 
 '''
@@ -436,6 +432,7 @@ def historial():
             i.pop("id")
             contn = json.loads(content_schema.dumps(content))
             i["contentname"] = str(contn["name"])
+        print(reser)
         return render_template("historial.html", data=reser)
     return redirect(url_for("registro"))
 
