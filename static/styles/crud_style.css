@@ -1,0 +1,149 @@
+*{
+    font-family: "Helvetica Now Display", sans-serif !important;
+    font-size: medium;
+    padding: 0%;
+    margin: 0%;
+}
+
+html{
+    scroll-snap-type: y mandatory;
+}
+
+.general_side_div{
+    scroll-snap-align: start;
+    opacity: 0;
+}
+
+::-webkit-scrollbar {
+    width: 0.2vw;
+    height: 0.1vh;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(0, 21, 71);
+}
+
+::-moz-selection {
+    color: white;
+    background: #001547;
+}
+
+::selection {
+    color: white;
+    background: #001547;
+}
+
+@media screen and (max-width: 1212px){}
+
+p{
+    color: #001547;
+}
+
+.navbar{
+    display: flex;
+    overflow: hidden;
+    position: fixed;
+    top: 0%;
+    width: 100vw;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar p{
+    background: transparent;
+    font-weight: 500;
+    margin: 1.5rem;
+}
+
+.navbar a{
+    width: 3rem;
+    height: auto;
+    margin: 1rem;
+    background-color: transparent;
+}
+
+.navbar a img{
+    width: 1.5rem;
+    height: auto;
+    background-color: transparent;
+}
+
+#navbar_id{
+    background-color: transparent;
+}
+
+.main_div{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.div_list_users{
+    height: 90vh;
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.div_list_users div{
+    margin-top: 0.5rem;
+}
+
+.div_list_users div div{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 8vw;
+}
+
+.div_list_users div div input{
+    width: 6vw;
+}
+
+.div_list_users div div select{
+    width: 8vw;
+}
+
+.single_row_label{
+    width: 90vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-weight: bold;
+    background-color: #0034b0;
+}
+
+.single_row_user{
+    width: 90vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#row_save{
+    width: 6vw;
+    border: none;
+    color: #00b0b0;
+}
+
+#row_delete{
+    width: 6vw;
+    border: none;
+    color: white;
+    background-color: #c90000;
+}
+
+
+
+
+
+
+
+
+
