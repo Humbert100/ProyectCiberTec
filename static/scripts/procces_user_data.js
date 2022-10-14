@@ -96,7 +96,7 @@ function process_sign_in_info(){
 
     let name = $("#user_name").val()
     let lastname = $("#user_lastname").val()
-    let fullname = name + lastname
+    let fullname = name + " " +lastname
     let user_sign_up_data = {   'name'      :   fullname,
                                 'email'     :   $("#user_email").val(),
                                 'pwd'       :   $("#user_pwd").val()};
@@ -109,7 +109,7 @@ function process_sign_in_info(){
         contentType :   'application/json',
         dataType    :   "json",
     
-        success: function (data)    {
+        success: function (data)   {
             if (data.register == 1){
                 alert("usuario registrado")
                 console.log("Se logro")

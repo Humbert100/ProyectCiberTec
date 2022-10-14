@@ -13,6 +13,7 @@ from datetime import datetime, timedelta, timezone
 from flask_mail import Mail
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 import re
+import hashlib
 
 #Se crea la app en flaks
 app = Flask(__name__)
@@ -117,7 +118,7 @@ def creat_user():
         res = {"register":1}
         return json.dumps(res)
     else:
-        res = {"register":"Exist"}
+        res = {"register":"exist"}
         return json.dumps(res)
 
 @app.route("/logout")
@@ -332,7 +333,17 @@ def app_historial(id):
     return(reser)
 
 
+@app.route('/pruebas', methods=["POST"])
+def pruebas():
+    body = request.get_json()
+    getuser = User.query.filter(User.id == 10).first()
+    print(getuser)
+    user_schema = userSchema()
+    
+    return "Work?"
 
+
+'''
 @app.route('/pruebas')
 def pruebas():
     if jwtValidated(request.cookies.get("jwt")):
@@ -342,8 +353,6 @@ def pruebas():
         #return render_template("pruebas.html")
         return "Hola"
     return redirect(url_for("index"))
-    
-'''
 
 @app.route('/pruebas')
 def pruebas():
