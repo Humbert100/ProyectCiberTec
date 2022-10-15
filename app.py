@@ -3,7 +3,7 @@ import json
 import jwt
 from flask import Flask, render_template, request, url_for, make_response, redirect
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import func, true, desc
+from sqlalchemy import func, table, true, desc
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from Models.reservations import reservationSchema, Reservations
@@ -123,6 +123,30 @@ def creat_user():
         res = {"register":"exist"}
         return json.dumps(res)
 
+@app.route("/user/create/app", methods=['POST']) #Creamos al usuario de esta manera
+def creat_user_app():
+    tec = '@tec.mx'
+    body = request.get_json()
+    user = User.query.filter_by(email=body.get("email")).first()
+    userpwd = bytes(str(body["pwd"]), 'utf8')
+    body["pwd"] = (hashlib.sha256((userpwd))).hexdigest()
+    if (user == None):
+        assos = re.search(tec, body.get("email"))
+        if(assos != None):
+            body["tecAssociate"] = 1
+        else:
+            body["tecAssociate"] = 0
+        email = body.get("email")
+        token = s.dumps(email, salt='email-confirm') 
+        user_schema = userSchema()
+        user = user_schema.load(body, session=db.session)
+        user.save()
+        res = {"register":"true"}
+        return json.dumps(res)
+    else:
+        res = {"register":"exist"}
+        return json.dumps(res)
+
 @app.route("/logout")
 def logout():
     resp = make_response(redirect(url_for("index")))
@@ -142,7 +166,7 @@ def userLogin():
             user.pop("block")
             user.pop("verified")
             userpwd = bytes(str(body["pwd"]), 'utf8')
-            #body["pwd"] = (hashlib.sha256((userpwd))).hexdigest()
+            body["pwd"] = (hashlib.sha256((userpwd))).hexdigest()
             if(body.get("pwd") == user["pwd"]):
                 user.pop("pwd")
                 user["exp"] = datetime.now(timezone.utc) + timedelta(days=1)
@@ -201,16 +225,34 @@ def delete_cont(id):
 @app.route("/delete/user/<id>", methods=["DELETE"])
 def delete_user(id):
     user = User.query.filter_by(id=id).first()
-    user_Schema = userSchema()
     user.deletedata()
 
     return "User successfully deleted"
 
-@app.route("/getall/users", methods=["GET"])
+@app.route("/delete/user", methods=["POST"])
+def user_remove():
+    body = request.get_json()
+    user = User.query.filter(User.id == body.get("userId")).first()
+    user.deletedata()
+    return json.dumps({"confirmation": "True"})
+
+@app.route("/getall/users", methods=["POST"])
 def get_all_users():
-    users = User.query.with_entities(User.id, User.name, User.email, User.admin, User.superAdmin, User.tecAssociate, User.block).filter(User.id == 1)
-    user_schema = userSchema(many=True)
-    return  user_schema.dumps(users)
+    users = db.session.query(User).with_entities(User.id, User.email, User.name, User.admin, User.superAdmin, User.tecAssociate, User.block, User.verified).all()
+    the_users ={}
+    counter = 0
+    for i in users:
+        the_users[f"user_{counter}"] = {"id":           i["id"],
+                                        "email":        i["email"],
+                                        "name":         i["name"],
+                                        "admin":        i["admin"],
+                                        "superAdmin":   i["superAdmin"],
+                                        "tecAssociate": i["tecAssociate"],
+                                        "block":        i["block"],
+                                        "verified":     i["verified"]
+        }
+        counter += 1
+    return  the_users
 
 @app.route('/mostwanted/content', methods=["GET"])
 def most_wanted_content():
@@ -283,41 +325,45 @@ def get_all_content():
     content_schema = contentSchema(many=True)
     return content_schema.dumps(cont)
 
+'''
 @app.route('/updateUser', methods=["PUT"])
 def update_user_data():
-    tec = '@tec.mx'
-    user_schema = userSchema()
-    body = request.get_json()
-    userId = body.pop("id")
-    assos = re.search(tec, body.get("email"))
-    user = User.query.filter_by(id=userId).first()
-    if(assos != None):
-        user.tecAssociate = 1
-    else:
-        user.tecAssociate = 0
-    user.email = body.get("email")
-    user.pwd=bcrypt.generate_password_hash(body["pwd"])
-    print(user_schema.dumps(user))
+    if jwtValidated(request.cookies.get("jwt")):
+        tec = '@tec.mx'
+        user_schema = userSchema()
+        body = request.get_json()
+        userId = body.pop("id")
+        assos = re.search(tec, body.get("email"))
+        user = User.query.filter_by(id=userId).first()
+        if(assos != None):
+            user.tecAssociate = 1
+        else:
+            user.tecAssociate = 0
+        if (body["block"] == "True")
+            user.block = 1
+    
+        user.email = body.get("email")
+        userpwd = bytes(str(body["pwd"]), 'utf8')
+        body["pwd"] = (hashlib.sha256((userpwd))).hexdigest()
+        user.pwd= body["pwd"]
+        
+        print(user_schema.dumps(user))
+        user.updatedata()
+        return "Change has been comited"
+'''
+@app.route("/update/user/admin", methods=["PUT"])
+def update_user_data_admin():
+    body     = request.get_json()
+    user = User.query.filteR(User.id == body["id"])
+    userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
+    if(userdata["superAdmin"] == 1):
+        if (body["admin"] == "True"):
+            user.admin = 1
+    if(body["block"] == "True"):
+        user.block = 1
     user.updatedata()
-    return "Change has been comited"
+    return json.dumps({"confirmation": "True"})
 
-@app.route('/updateUser', methods=["PUT"])
-def app_update_user_data():
-    tec = '@tec.mx'
-    user_schema = userSchema()
-    body = request.get_json()
-    userId = body.pop("id")
-    assos = re.search(tec, body.get("email"))
-    user = User.query.filter_by(id=userId).first()
-    if(assos != None):
-        user.tecAssociate = 1
-    else:
-        user.tecAssociate = 0
-    user.email = body.get("email")
-    user.pwd=bcrypt.generate_password_hash(body["pwd"])
-    print(user_schema.dumps(user))
-    user.updatedata()
-    return "Change has been comited"
 
 @app.route("/historial/app/<id>", methods=["GET"])
 def app_historial(id):
@@ -335,13 +381,15 @@ def app_historial(id):
         i.pop("endDate")
         i.pop("finish")
         i["total"] = int(totalhours)
+    print(reser)
     return(reser)
 
 
 @app.route('/pruebas')
 def pruebas():
     if jwtValidated(request.cookies.get("jwt")):
-        return render_template("historial.html")
+        reser = [{'finish': 1, 'endDate': '2022-10-14 00:00:00.0', 'startDate': '2022-10-11 00:00:00.0', 'contentname': 'Microsoft de Word'}, {'finish': 1, 'endDate': '2022-10-09 18:00:00.0', 'startDate': '2022-10-09 12:00:00.0', 'contentname': 'Microsoft de PowerPoint'}, {'finish': 1, 'endDate': '2022-10-07 19:00:00.0', 'startDate': '2022-10-07 11:00:00.0', 'contentname': 'Licencia de Cisco Packet Tracer'}]
+        return render_template("historial.html", data=reser)
     return redirect(url_for("homepage"))
 
 
@@ -394,6 +442,15 @@ def ayuda():
         return render_template("ayuda.html")
     return redirect(url_for("registro"))
 
+@app.route('/crud/users')
+def user_crud():
+    if jwtValidated(request.cookies.get("jwt")):
+        userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
+        if (userdata["admin"] == 1):
+            return render_template("adminUsers.html")
+        return "<h1>Sorry, this view is only for admins</h1>"
+    return redirect(url_for("index"))
+        
 @app.route('/calender')
 def calender():
     if jwtValidated(request.cookies.get("jwt")):

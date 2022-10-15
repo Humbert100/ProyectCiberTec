@@ -79,7 +79,33 @@ p{
     height: 100vh;
     justify-content: center;
     align-items: center;
-    background-image: ;
+    background-image: url('/static/resources/backsecundary.png');
+}
+
+.user_info_square{
+    display: flex;
+    flex-direction: column;
+    background-color: #00b0b0;
+    opacity: 1;
+    width: 50vw;
+    height: 50vh;
+    overflow: auto;
+}
+
+.user_info_square div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 0.3rem;
+}
+
+.user_info_cols{
+    font-weight: bold;
+}
+
+.user_info_square div div{
+    width: 1rem;
+    justify-content: center;
 }
 
 .main_div{
@@ -148,12 +174,3 @@ p{
     color: white;
     background-color: #c90000;
 }
-
-
-
-
-
-
-
-
-

@@ -1,16 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <link type="text/css" rel="preload" href="{{ url_for('static',filename='styles/crud_style.css') }}" as="style">
-    <script type="text/javascript" src="{{ url_for('static',filename='scripts/user_crud_func.js') }}"></script>
-</head>
-<body>
-    <div class="navbar" id="navbar_id">
-        <p>CYBERTEC</p>
-    </div>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <link type="text/css" rel="preload" href="{{ url_for('static',filename='styles/crud_style.css') }}">
+        <script src="{{url_for('static', filename='scripts/anime-master/anime-master/lib/anime.min.js') }}"></script>
+    </head>
+    <body>
+        <div class="navbar" id="navbar_id">
+            <p>CYBERTEC</p>
+        </div>
 
-    <div class=""></div>
-<body
+        <div>
+            <div class="div_list_users" id="div_list_users_id">
+
+                <div class="single_row_label" id="single_row_label_id">
+                    <div><p>Id</p></div>
+                    <div><p>Email</p></div>
+                    <div><p>Name</p></div>
+                    <div><p>Admin</p></div>
+                    <div><p>Super Admin</p></div>
+                    <div><p>Block</p></div>
+                    <div><p>Verified</p></div>
+                    <div><p>Save</p></div>
+                    <div><p>Edit</p></div>
+                </div>
+        
+            </div>
+
+            <script src="{{ url_for('static',filename='scripts/user_crud_func.js') }}"></script>
+        </div>
+    </body>
+</html>
