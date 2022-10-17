@@ -421,11 +421,12 @@ def app_historial(id):
     return(reser)
 
 
+headings = {"Fecha de inicio", "Descripción", "Tiempo usado"}
 @app.route('/pruebas')
 def pruebas():
     if jwtValidated(request.cookies.get("jwt")):
-        reser = [{'finish': 1, 'endDate': '2022-10-14 00:00:00.0', 'startDate': '2022-10-11 00:00:00.0', 'contentname': 'Microsoft de Word'}, {'finish': 1, 'endDate': '2022-10-09 18:00:00.0', 'startDate': '2022-10-09 12:00:00.0', 'contentname': 'Microsoft de PowerPoint'}, {'finish': 1, 'endDate': '2022-10-07 19:00:00.0', 'startDate': '2022-10-07 11:00:00.0', 'contentname': 'Licencia de Cisco Packet Tracer'}]
-        return render_template("historial.html", data=reser)
+        reser = [{'startDate': '2022-10-11 00:00:00.0', 'contentname': 'Microsoft de Word', 'total': 72}, {'startDate': '2022-10-09 12:00:00.0', 'contentname': 'Microsoft de PowerPoint', 'total': 6}, {'startDate': '2022-10-07 11:00:00.0', 'contentname': 'Licencia de Cisco Packet Tracer', 'total': 8}]
+        return render_template("historial.html", headings=headings, data=reser)
     return redirect(url_for("homepage"))
 
 
