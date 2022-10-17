@@ -31,8 +31,8 @@ bcrypt = Bcrypt(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8412@localhost/ctdb.db'
 CORS(app)
-#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
-app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
+app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
+#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
 #Creamos llave secreta
 app.config['SECRET_KEY'] = 'COOLDUDE'
 #Se inicializa la base de datos 
@@ -88,16 +88,6 @@ def emailConfirmation(token):
     except BadSignature:
         return '<h1>The token is incorrect</h1>'
     return 'The token works!'
-
-@app.route("/set")
-def setcookie():
-    resp = make_response('setting cookie!')
-    resp.set_cookie('framework', 'flask')
-    return resp
-
-@app.route("/get")
-def getcookie():
-    return ''
 
 @app.route("/user/create", methods=['POST']) #Creamos al usuario de esta manera
 def creat_user():
@@ -160,6 +150,7 @@ def userLogin():
     resp = make_response()
     user = User.query.with_entities(User.id, User.email, User.admin, User.superAdmin, User.pwd, User.block, User.verified).filter(User.email == body.get("email")).first()
     user_schema = userSchema()
+    print(user)
     if (user != None):
         user = user_schema.dumps(user)
         user = json.loads(user)
@@ -307,7 +298,6 @@ def creat_reservation():
     start = body.pop("startDate")
     end = body.pop("endDate")
     Reservation_Schema = reservationSchema()
-    content_Schema = contentSchema()
     body = Reservations(user=userId, content=contentId, startDate=start, endDate=end)
     print(body)
     body.save()
@@ -421,13 +411,12 @@ def app_historial(id):
     return(reser)
 
 
-headings = {"Fecha de inicio", "Descripción", "Tiempo usado"}
+
 @app.route('/pruebas')
 def pruebas():
-    if jwtValidated(request.cookies.get("jwt")):
-        reser = [{'startDate': '2022-10-11 00:00:00.0', 'contentname': 'Microsoft de Word', 'total': 72}, {'startDate': '2022-10-09 12:00:00.0', 'contentname': 'Microsoft de PowerPoint', 'total': 6}, {'startDate': '2022-10-07 11:00:00.0', 'contentname': 'Licencia de Cisco Packet Tracer', 'total': 8}]
-        return render_template("historial.html", headings=headings, data=reser)
-    return redirect(url_for("homepage"))
+    headings = {"Fecha de inicio", "Descripción", "Tiempo usado"}
+    reser = [{'endDate': '2022-10-07 19:00:00.0', 'startDate': '2022-10-07 11:00:00.0', 'contentname': 'Licencia de Cisco Packet Tracer'}, {'endDate': '2022-10-09 18:00:00.0', 'startDate': '2022-10-09 12:00:00.0', 'contentname': 'Microsoft de PowerPoint'}, {'endDate': '2022-10-14 00:00:00.0', 'startDate': '2022-10-11 00:00:00.0', 'contentname': 'Microsoft de Word'}]
+    return render_template("historial.html", headings=headings, data=reser)
 
 
 '''
@@ -512,11 +501,12 @@ def error():
         return render_template("error.html")
     return redirect(url_for("registro"))
 
+headings = {"Fecha de inicio", "Descripción", "Tiempo usado"}
 @app.route('/historial')
 def historial():
     if jwtValidated(request.cookies.get("jwt")):
         userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
-        userReservations = Reservations.query.filter(Reservations.userId == userdata["id"]).filter(Reservations.finish == 1)
+        userReservations = Reservations.query.filter(Reservations.userId == userdata["id"]).filter(Reservations.finish == 1).order_by(desc(Reservations.id)).limit(5).all()
         reservation_schema = reservationSchema(many=True)
         reservation_schema = reservation_schema.dumps(userReservations)
         reser = json.loads(reservation_schema)
@@ -524,10 +514,13 @@ def historial():
         for i in reser:
             content = Content.query.filter(Content.id == i["id"]).first()
             i.pop("id")
+            i.pop("finish")
+            i["total"] = int(getHours(i["startDate"], i["endDate"]))
+            i.pop("endDate")
             contn = json.loads(content_schema.dumps(content))
             i["contentname"] = str(contn["name"])
-        print(reser)
-        return render_template("historial.html", data=reser)
+        numReser = len(reser)
+        return render_template("historial.html", data=reser, headings=headings, numero=numReser)
     return redirect(url_for("registro"))
 
 @app.route('/homepage')

@@ -11,7 +11,7 @@ class Reservations(db.Model):
     endDate      =   db.Column(db.String  , nullable=False)
     userId       =   db.Column(db.Integer , db.ForeignKey("user.id"))
     contentId    =   db.Column(db.Integer , db.ForeignKey("content.id"))
-    finish       =   db.Column(db.Integer , nullable=False, default=1)
+    finish       =   db.Column(db.Integer , nullable=False, default=0)
 
 
     def save(self):
