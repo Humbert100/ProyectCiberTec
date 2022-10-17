@@ -551,6 +551,26 @@ def reservacionfis():
         return render_template("reservacionfis.html")
     return redirect(url_for("registro"))
 
+@app.route('/activas')
+def reservaciones_activas():
+    if jwtValidated(request.cookies.get("jwt")):
+        userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
+        userReservations = Reservations.query.filter(Reservations.userId == userdata["id"]).filter(Reservations.finish == 0).order_by(desc(Reservations.id)).limit(5).all()
+        reservation_schema = reservationSchema(many=True)
+        reservation_schema = reservation_schema.dumps(userReservations)
+        reser = json.loads(reservation_schema)
+        content_schema = contentSchema()
+        for i in reser:
+            content = Content.query.filter(Content.id == i["id"]).first()
+            i.pop("id")
+            i.pop("finish")
+            contn = json.loads(content_schema.dumps(content))
+            i["contentname"] = str(contn["name"])
+        numReser = len(reser)
+        return render_template("activas.html", data=reser, headings=headings, numero=numReser)
+    return redirect(url_for("registro"))
+
+
 @app.route('/reservacionhard')
 def reservacionhard():
     if jwtValidated(request.cookies.get("jwt")):
