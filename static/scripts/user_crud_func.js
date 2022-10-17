@@ -63,21 +63,24 @@ function delete_button(id_val){
     });
     setTimeout(move_rows, 800, id_val);
 
-    var userid      = $(`#${id_val} #row_id`).text();
+    var userid      = $(`#${id_val} #row_user`).text();
     var requestURL  = {"userId": userid}
+    //console.log(userid)
+    console.log(requestURL)
 
     
     $.ajax({
         type            : "POST",
         url             : "/delete/user",
         data            : JSON.stringify(requestURL),
-        contentType     : 'application/jso',
+        contentType     : 'application/json',
         dataType        : 'json',
 
         success         : function(data){
             var jso     = JSON.stringify(data);
             var obj     = JSON.parse(jso);
             console.log(obj);
+            alert("Usuario eliminado exitosamente")
         }
     });          
 }
@@ -106,7 +109,8 @@ function save_button(id_val){
     console.log(request_data);
 
     $.ajax({
-        ty
+        type            :       "POST",
+        url             :       ""
     })
 }
 

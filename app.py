@@ -31,8 +31,8 @@ bcrypt = Bcrypt(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8412@localhost/ctdb.db'
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
-#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
+#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
+app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
 #Creamos llave secreta
 app.config['SECRET_KEY'] = 'COOLDUDE'
 #Se inicializa la base de datos 
@@ -128,6 +128,7 @@ def creat_user_app():
     tec = '@tec.mx'
     body = request.get_json()
     user = User.query.filter_by(email=body.get("email")).first()
+    print(user)
     userpwd = bytes(str(body["pwd"]), 'utf8')
     body["pwd"] = (hashlib.sha256((userpwd))).hexdigest()
     if (user == None):
@@ -140,7 +141,7 @@ def creat_user_app():
         token = s.dumps(email, salt='email-confirm') 
         user_schema = userSchema()
         user = user_schema.load(body, session=db.session)
-        user.save()
+        #user.save()
         res = {"register":"true"}
         return json.dumps(res)
     else:
@@ -181,26 +182,41 @@ def userLogin():
     resp.set_data(respbody)
     return resp
 
-@app.route("/user/login/app", methods=["PUT"])
-def userLoginApp():
+@app.route("/user/login/app", methods=["POST"])
+def user_login_app():
     body = request.get_json()
-    user = User.query.with_entities(User.id, User.email, User.admin, User.superAdmin, User.pwd, User.block).filter(User.email == body.get("email")).first()
+    user = User.query.filter(User.email == body.get("email")).first()
     user_schema = userSchema()
     if (user != None):
         user = user_schema.dumps(user)
         user = json.loads(user)
-        if(user["block"] == 1):
+        if(user["verified"] == 1 or user["block"] == 0):
             user.pop("block")
+            user.pop("verified")
+            userpwd = bytes(str(body["pwd"]), 'utf8')
+            body["pwd"] = (hashlib.sha256((userpwd))).hexdigest()
             if(body.get("pwd") == user["pwd"]):
                 user.pop("pwd")
-                respbody = json.dumps({"authorized":1, "id":user["id"], "email":user["email"]})
+                JWT = jwt.encode(user, TheKey, algorithm="HS256")
+                respbody = json.dumps({"authorized":"True", "JWT":JWT})
             else:
                 respbody = json.dumps({"authorized":"pwd"})
         else:
-            respbody = json.dumps({"authorized":"available"})
+            if(user["verified"] == 0):
+                respbody = json.dumps({"authorized":"verified"})
+            else:
+                respbody = json.dumps({"authorized":"block"})
     else:
-        respbody = json.dumps({"authorized":"exist"})
+        respbody = json.dumps({"authorized":"user"})
     return respbody
+
+@app.route("/doubleJSON", methods=["POST"])
+def JSONTEST():
+    body = request.get_json()
+    JWT = jwt.encode(body, TheKey, algorithm="HS256")
+    respbody = json.dumps({"nil":0, "JWT":JWT.decode()})
+    return respbody
+
             
 @app.route("/content/create", methods=['POST']) #Se crea un nuevo contenido:
 def creat_content():
@@ -222,19 +238,41 @@ def delete_cont(id):
     
     return "Content succssesfully deleted"
 
-@app.route("/delete/user/<id>", methods=["DELETE"])
-def delete_user(id):
-    user = User.query.filter_by(id=id).first()
-    user.deletedata()
-
-    return "User successfully deleted"
-
 @app.route("/delete/user", methods=["POST"])
 def user_remove():
     body = request.get_json()
-    user = User.query.filter(User.id == body.get("userId")).first()
+    body["userId"] = int(body["userId"])
+    user = User.query.filter(User.id == body.get("id")).first()
     user.deletedata()
     return json.dumps({"confirmation": "True"})
+
+@app.route("/update/user/data", methods=["POST"])
+def update_user_info():
+    body = request.get_json()
+    resp = {}
+    getUser = User.query.filter(User.id == body.get("id")).first()
+    userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
+    print(body["admin"] == "True")
+    if (userdata["superAdmin"] == 1):
+        if(body["admin"] == "True"):
+            resp["admin"] = 1
+            body["admin"] = 1
+        else:
+            resp["admin"] = 1
+            body["admin"] = 0
+    else:
+        resp["admin"] = 0
+        body["admin"] = 0
+    if (body["block"] == "True"):
+        body["block"] = 1
+    else:
+        body["block"] = 0
+    resp["result"] = "done"
+    getUser.admin = body["admin"]
+    print(body["admin"])
+    getUser.block = body["block"]
+    getUser.updatedata()
+    return json.dumps(resp)
 
 @app.route("/getall/users", methods=["POST"])
 def get_all_users():
@@ -271,6 +309,7 @@ def creat_reservation():
     Reservation_Schema = reservationSchema()
     content_Schema = contentSchema()
     body = Reservations(user=userId, content=contentId, startDate=start, endDate=end)
+    print(body)
     body.save()
 
     return Reservation_Schema.dumps(body)
@@ -292,11 +331,8 @@ def app_creat_reservation():
 @app.route('/reservation/end/<id>', methods=["PUT"])
 def reservation_finish(id):
     reservation = Reservations.query.filter(Reservations.id==id).first()
-    resercation_schema = reservationSchema()
-
     reservation.finish = 1
     reservation.updatedata()
-
     return "resercation_schema.dumps(reservation)"
 
 @app.route('/getcontent/<type>', methods=["GET"])
