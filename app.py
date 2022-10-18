@@ -136,6 +136,7 @@ def creat_user_app():
         return json.dumps(res)
     else:
         res = {"register":"exist"}
+        print(json.dumps(res))
         return json.dumps(res)
 
 @app.route("/logout")
@@ -194,11 +195,12 @@ def user_login_app():
                 respbody = json.dumps({"authorized":"pwd"})
         else:
             if(user["verified"] == 0):
-                respbody = json.dumps({"authorized":"verified"})
+                respbody = json.dumps({"authorized":"verified", "JWT":"NOT"})
             else:
-                respbody = json.dumps({"authorized":"block"})
+                respbody = json.dumps({"authorized":"block", "JWT":"NOT"})
     else:
-        respbody = json.dumps({"authorized":"user"})
+        respbody = json.dumps({"authorized":"user", "JWT":"NOT"})
+    print(respbody)
     return respbody
 
 @app.route("/doubleJSON", methods=["POST"])
@@ -325,9 +327,10 @@ def reservation_finish(id):
     reservation.updatedata()
     return "resercation_schema.dumps(reservation)"
 
-@app.route('/getcontent/<type>', methods=["GET"])
-def get_content(type):
-    content = Content.query.filter(Content.type==type).all()
+@app.route('/getcontent', methods=["POST"])
+def get_content():
+    body = request.get_json()
+    content = Content.query.filter(Content.type==body["type"]).all()
     content_schema = contentSchema(many=True)
     return content_schema.dumps(content)
 
@@ -414,9 +417,9 @@ def app_historial(id):
 
 @app.route('/pruebas')
 def pruebas():
-    headings = {"Fecha de inicio", "Descripción", "Tiempo usado"}
+    headings = {"Fecha de inicio", "Fecha final", "Descripcion"}
     reser = [{'endDate': '2022-10-07 19:00:00.0', 'startDate': '2022-10-07 11:00:00.0', 'contentname': 'Licencia de Cisco Packet Tracer'}, {'endDate': '2022-10-09 18:00:00.0', 'startDate': '2022-10-09 12:00:00.0', 'contentname': 'Microsoft de PowerPoint'}, {'endDate': '2022-10-14 00:00:00.0', 'startDate': '2022-10-11 00:00:00.0', 'contentname': 'Microsoft de Word'}]
-    return render_template("historial.html", headings=headings, data=reser)
+    return render_template("activas.html", headings=headings, data=reser)
 
 
 '''
@@ -468,6 +471,11 @@ def ayuda():
         return render_template("ayuda.html")
     return redirect(url_for("registro"))
 
+@app.route('/prueba/crud')
+def user_crud_prueba():
+    return render_template("adminUsers.html")
+
+
 @app.route('/crud/users')
 def user_crud():
     if jwtValidated(request.cookies.get("jwt")):
@@ -475,7 +483,7 @@ def user_crud():
         if (userdata["admin"] == 1):
             return render_template("adminUsers.html")
         return "<h1>Sorry, this view is only for admins</h1>"
-    return redirect(url_for("index"))
+    return redirect(url_for("index"))    
         
 @app.route('/calender')
 def calender():
@@ -567,7 +575,7 @@ def reservaciones_activas():
             contn = json.loads(content_schema.dumps(content))
             i["contentname"] = str(contn["name"])
         numReser = len(reser)
-        return render_template("activas.html", data=reser, headings=headings, numero=numReser)
+        return render_template("activas.html", data=reser, headings=headings)
     return redirect(url_for("registro"))
 
 
