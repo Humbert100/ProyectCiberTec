@@ -23,8 +23,8 @@ bcrypt = Bcrypt(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8412@localhost/ctdb.db'
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
-#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
+#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
+app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
 #Creamos llave secreta
 app.config['SECRET_KEY'] = 'COOLDUDE'
 #Se inicializa la base de datos 
@@ -322,7 +322,7 @@ def get_all_users():
 
 @app.route("/getall/content", methods=["POST"])
 def get_all_content():
-    allContent = db.session.query(Content).with_entities(Content.id, Content.name, Content.type, Content.description, Content.available).all()
+    allContent = db.session.query(Content).with_entities(Content.id, Content.name, Content.type, Content.description).all()
     the_contents = {}
     print(allContent)
     counter = 0
@@ -331,7 +331,6 @@ def get_all_content():
                                                 "name":             i["name"],
                                                 "type":             i["type"],
                                                 "description":      i["description"],
-                                                "available":        i["available"]
         }
         counter += 1
     return the_contents
@@ -517,7 +516,7 @@ def ayuda():
 
 @app.route('/prueba/crud')
 def user_crud_prueba():
-    return render_template("adminUsers.html")
+    return render_template("adminContent.html")
 
 
 @app.route('/crud/users')

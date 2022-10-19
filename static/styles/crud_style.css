@@ -34,7 +34,7 @@ html{
 }
 
 @media screen and (max-width: 1212px){}
-
+/* ESTILO PARA ADMINUSERS */
 p{
     color: white;
 }
@@ -61,8 +61,10 @@ p{
     width: 4vw;
 }
 
-.div_list_users div div input{
-    width: 6vw;
+.div_list_users div div{
+   display: flex;
+   flex-direction: row;
+   width: 100vw;
 }
 
 .div_list_users div div select{
@@ -78,11 +80,16 @@ p{
     background-color: rgb(45, 100, 182);
 }
 
-.single_row_user{
+.single_row_user, .single_row_content{
     width: 1400px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+}
+
+.single_row_content input[type=text]{
+    display: inline-block;
+    width: auto;
 }
 
 #row_save{

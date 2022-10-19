@@ -11,7 +11,6 @@ class Content(db.Model):
     name                =   db.Column(db.String(100), nullable=False, unique=True)
     type                =   db.Column(db.String(100), nullable=False)
     description         =   db.Column(db.String, nullable=False)
-    available           =   db.Column(db.Integer, default=1)
     reservation         =   db.relationship('Reservations', backref='content',  cascade="all, delete")
 
     def updatedata(self):

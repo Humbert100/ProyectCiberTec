@@ -11,13 +11,6 @@ function new_div(obj){
                             </select>
                         </div>
                         <div><input type="text" id="row_description" value="${obj.description}"></div>
-                        <div>
-                            <select name="" id="row_available">
-                                <option value="${obj.available}">${obj.available}</option>
-                                <option value=0>True</option>
-                                <option value=1>False</option>
-                            </select>
-                        </div>
                         <div><button id="row_save" onclick="save_button('${obj.id}');">save</button></div>
                         <div><button id="row_delete" onclick="delete_button('${obj.id}');">delete</button></div>
                     </div>`;
@@ -89,13 +82,11 @@ function save_button(id_val){
     var name        =   $(`#${id_val} #row_name`).text();
     var type        =   $(`#${id_val} #row_type`).val();
     var description =   $(`#${id_val} #row_description`).text();
-    var available   =   $(`#${id_val} #row_available`).val();
 
     var request_data=  {"id":id,
                         "name":name,
-                        "admin":type,
-                        "superAdmin":description,
-                        "tecAssociate":available
+                        "type":type,
+                        "description":description
     }
 
     console.log(request_data);
