@@ -1,25 +1,23 @@
 function new_div(obj){
-            let users=`<div class="single_row_user" id="${obj.id}">
-                        <div><a href='#' style="text-decoration-color: black;"><p id="row_user">${obj.id}</p></a></div>
-                        <div><p id="row_email">${obj.email}</p></div>
-                        <div><p id="row_name">${obj.name}</p></div>
+            let users=`<div class="single_row_content" id="${obj.id}">
+                        <div><a href='#' style="text-decoration-color: black;"><p id="row_content">${obj.id}</p></a></div>
+                        <div><input type="text" id="row_name" value="${obj.name}"></div>
                         <div>
-                            <select id="row_admin" name="">
-                                <option value="${obj.admin}">${obj.admin}</option>
-                                <option value="True">True</option>
-                                <option value="False">False</option>
+                            <select name="" id="row_type">
+                                <option value="${obj.type}">${obj.type}</option>
+                                <option value="hardware">hardware</option>
+                                <option value="software">software</option>
+                                <option value="EF">EF</option>
                             </select>
                         </div>
-                        <div><p for="row_super_admin">${obj.superAdmin}</p></div>
-                        <div><p for="row_tecAssociate">${obj.tecAssociate}</p></div>
+                        <div><input type="text" id="row_description" value="${obj.description}"></div>
                         <div>
-                            <select name="" id="row_block">
-                                <option value="${obj.block}">${obj.block}</option>
-                                <option value="True">True</option>
-                                <option value="False">False</option>
+                            <select name="" id="row_available">
+                                <option value="${obj.available}">${obj.available}</option>
+                                <option value=0>True</option>
+                                <option value=1>False</option>
                             </select>
                         </div>
-                        <div><p id="row_verified">${obj.verified}</p></div>
                         <div><button id="row_save" onclick="save_button('${obj.id}');">save</button></div>
                         <div><button id="row_delete" onclick="delete_button('${obj.id}');">delete</button></div>
                     </div>`;
@@ -33,7 +31,7 @@ function add_div(){
 
     $.ajax({
         type        :       "POST",
-        url         :       "/getall/users",
+        url         :       "/getall/content",
         data        :       JSON.stringify(user_data_request),
         contentType :       "application/json",
         success     :       function(data){
@@ -43,7 +41,7 @@ function add_div(){
             no_objects = Object.keys(obj).length;
             console.log(no_objects);
             for (var i = 0; i < no_objects; i++){
-                new_div(obj[`user_${i}`]);
+                new_div(obj[`content_${i}`]);
             }
         }
     });
@@ -63,8 +61,8 @@ function delete_button(id_val){
     });
     setTimeout(move_rows, 800, id_val);
 
-    var userid      = $(`#${id_val} #row_user`).text();
-    var requestURL  = {"userId": userid}
+    var userid      = $(`#${id_val} #row_content`).text();
+    var requestURL  = {"id": userid}
     //console.log(userid)
     console.log(requestURL)
 
@@ -87,23 +85,17 @@ function delete_button(id_val){
 
 function save_button(id_val){
 
-    var id          =   $(`#${id_val} #row_user`).text();
-    var email       =   $(`#${id_val} #row_email`).text();
+    var id          =   $(`#${id_val} #row_content`).text();
     var name        =   $(`#${id_val} #row_name`).text();
-    var admin       =   $(`#${id_val} #row_admin`).val();
-    var superAdmin  =   $(`#${id_val} #row_superAdmin`).text();
-    var tecAssociate=   $(`#${id_val} #row_tecAssociate`).text();
-    var block       =   $(`#${id_val} #row_block`).val();
-    var verified    =   $(`#${id_val} #row_verified`).text();
+    var type        =   $(`#${id_val} #row_type`).val();
+    var description =   $(`#${id_val} #row_description`).text();
+    var available   =   $(`#${id_val} #row_available`).val();
 
     var request_data=  {"id":id,
-                        "email":email,
                         "name":name,
-                        "admin":admin,
-                        "superAdmin":superAdmin,
-                        "tecAssociate":tecAssociate,
-                        "block":block,
-                        "verified":verified
+                        "admin":type,
+                        "superAdmin":description,
+                        "tecAssociate":available
     }
 
     console.log(request_data);

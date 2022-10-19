@@ -1,4 +1,3 @@
-import email
 import json
 import jwt
 from flask import Flask, render_template, request, url_for, make_response, redirect
@@ -10,7 +9,7 @@ from Models.reservations import reservationSchema, Reservations
 from Models.user import User, userSchema
 from Models.content import Content, contentSchema
 from datetime import datetime, timedelta, timezone
-from flask_mail import Mail
+from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 import re
 import hashlib
@@ -18,25 +17,26 @@ import hashlib
 #Se crea la app en flaks
 app = Flask(__name__)
 app.config.from_pyfile('config.cfg')
-'''
-app.config['MAIL_SERVER']   = 'smtp.gmail.com'
-app.config['MAIL_USERNAME'] = 'uisongoku5@gmail.com'
-app.config['MAIL_PASSWORD'] = 'GokuLeGana123'
-app.config['MAIL_PORT']     = 587
-}'''
-
 bcrypt = Bcrypt(app)
 
 #Se agrega la base de datos
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8412@localhost/ctdb.db'
 CORS(app)
-#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
-app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
+app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
+#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
 #Creamos llave secreta
 app.config['SECRET_KEY'] = 'COOLDUDE'
 #Se inicializa la base de datos 
 db = SQLAlchemy(app)
+
+app.config['MAIL_SERVER']    = 'smtp.gmail.com'
+app.config['MAIL_USERNAME ']  = 'cybertecoficialemail@gmail.com'
+app.config['MAIL_DEFAULT_SENDER'] = 'cybertecoficialemail@gmail.com'
+app.config['MAIL_PASSWORD']   = 'CoolDude123'
+app.config['MAIL_PORT']       = 465
+app.config['MAIL_USE__SSL']   = True
+app.config['Mail_use_TLS']    = False
 
 s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 mail = Mail(app)
@@ -46,7 +46,7 @@ TheKey = app.config['SECRET_KEY']
 mail_settings = {
     "MAIL_SERVER"
 }
-
+#nomygvietqrwykgw
 
 #Esta funcion sirve para reconocer que el usuario esta dado de alta
 def authenticate(username, password):
@@ -79,15 +79,28 @@ def getHours(date1, date2):
     date_dif = date_dif.total_seconds() / 60 ** 2
     return date_dif
 
+def sendEmailConfirm(email):
+    #token = s.dumps(email, salt='email-config')
+    msg = Message('Confirm Email', recipients=[email])
+    
+    #link = url_for('confirmacion', token=token, external=True)
+    print(email)
+
+    mail.send(msg)
+
+    #msg.body = 'Tu codigo de verificacion es: {}'.format(link)
+    #mail.send(msg)
+    print("Hola?")
+
 @app.route('/emailConfirmagetion/<token>')
 def emailConfirmation(token):
     try:
         email = s.loads(token, salt='email-confirm', max_age=300)
     except SignatureExpired:
-        return '<h1>The token has expired</h1>'
+         redirect(url_for("codigo"))
     except BadSignature:
-        return '<h1>The token is incorrect</h1>'
-    return 'The token works!'
+        return  redirect(url_for("error"))
+    return  redirect(url_for("confirmacion"))
 
 @app.route("/user/create", methods=['POST']) #Creamos al usuario de esta manera
 def creat_user():
@@ -190,17 +203,16 @@ def user_login_app():
             if(body.get("pwd") == user["pwd"]):
                 user.pop("pwd")
                 JWT = jwt.encode(user, TheKey, algorithm="HS256")
-                respbody = json.dumps({"authorized":"True", "JWT":JWT})
+                respbody = json.dumps({"authorized":"True", "JWT":JWT, "email":user["email"]})
             else:
-                respbody = json.dumps({"authorized":"pwd"})
+                respbody = json.dumps({"authorized":"pwd", "JWT":"NOT", "email":"NONE"})
         else:
             if(user["verified"] == 0):
-                respbody = json.dumps({"authorized":"verified", "JWT":"NOT"})
+                respbody = json.dumps({"authorized":"verified", "JWT":"NOT", "email":"NONE"})
             else:
-                respbody = json.dumps({"authorized":"block", "JWT":"NOT"})
+                respbody = json.dumps({"authorized":"block", "JWT":"NOT", "email":"NONE"})
     else:
-        respbody = json.dumps({"authorized":"user", "JWT":"NOT"})
-    print(respbody)
+        respbody = json.dumps({"authorized":"user", "JWT":"NOT", "email":"NONE"})
     return respbody
 
 @app.route("/doubleJSON", methods=["POST"])
@@ -235,9 +247,29 @@ def delete_cont(id):
 def user_remove():
     body = request.get_json()
     body["userId"] = int(body["userId"])
-    user = User.query.filter(User.id == body.get("id")).first()
+    user = User.query.filter(User.id == body.get("userId")).first()
     user.deletedata()
+    print(user)
     return json.dumps({"confirmation": "True"})
+
+@app.route("/delete/content", methods=["POST"])
+def content_remove():
+    body = request.get_json()
+    body["id"] = int(body["id"])
+    contentToDelete = Content.query.filter(Content.id == body.get("id")).first()
+    contentToDelete.deletedata()
+    return json.dumps({"confirmation": "True"})
+
+@app.route("/update/content/data", methods=["POST"])
+def  update_content_info():
+    body = request.get_json()
+    getContent = Content.query.filter(Content.id == body.get("id")).first()
+    getContent.name = body["name"]
+    getContent.type = body["type"]
+    getContent.description = body["description"]
+    getContent.available = body["available"]
+    getContent.updatedata()
+    return json.dumps({"resp": "True"})
 
 @app.route("/update/user/data", methods=["POST"])
 def update_user_info():
@@ -245,24 +277,26 @@ def update_user_info():
     resp = {}
     getUser = User.query.filter(User.id == body.get("id")).first()
     userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
-    print(body["admin"] == "True")
     if (userdata["superAdmin"] == 1):
         if(body["admin"] == "True"):
-            resp["admin"] = 1
+            resp["admin"] = "Tchange"
             body["admin"] = 1
         else:
-            resp["admin"] = 1
+            resp["admin"] = "Nchange"
             body["admin"] = 0
     else:
-        resp["admin"] = 0
+        resp["admin"] = "Cchange"
         body["admin"] = 0
     if (body["block"] == "True"):
         body["block"] = 1
+        resp["block"] = 1
+    elif (body["block"] == "False"):
+        body["block"] = 0
+        resp["block"] = 1
     else:
         body["block"] = 0
-    resp["result"] = "done"
+        resp["block"] = 0
     getUser.admin = body["admin"]
-    print(body["admin"])
     getUser.block = body["block"]
     getUser.updatedata()
     return json.dumps(resp)
@@ -271,6 +305,7 @@ def update_user_info():
 def get_all_users():
     users = db.session.query(User).with_entities(User.id, User.email, User.name, User.admin, User.superAdmin, User.tecAssociate, User.block, User.verified).all()
     the_users ={}
+    print(users)
     counter = 0
     for i in users:
         the_users[f"user_{counter}"] = {"id":           i["id"],
@@ -284,6 +319,22 @@ def get_all_users():
         }
         counter += 1
     return  the_users
+
+@app.route("/getall/content", methods=["POST"])
+def get_all_content():
+    allContent = db.session.query(Content).with_entities(Content.id, Content.name, Content.type, Content.description, Content.available).all()
+    the_contents = {}
+    print(allContent)
+    counter = 0
+    for i in allContent:
+        the_contents[f"content_{counter}"] =   {"id":               i["id"],
+                                                "name":             i["name"],
+                                                "type":             i["type"],
+                                                "description":      i["description"],
+                                                "available":        i["available"]
+        }
+        counter += 1
+    return the_contents
 
 @app.route('/mostwanted/content', methods=["GET"])
 def most_wanted_content():
@@ -348,12 +399,6 @@ def content_reservations_soft():
     reservation_schema = reservationSchema(many=True)
     return reservation_schema.dumps(res)
 
-@app.route("/getall/content", methods=['GET'])
-def get_all_content():
-    cont = Content.query.all()
-    content_schema = contentSchema(many=True)
-    return content_schema.dumps(cont)
-
 '''
 @app.route('/updateUser', methods=["PUT"])
 def update_user_data():
@@ -415,11 +460,12 @@ def app_historial(id):
 
 
 
-@app.route('/pruebas')
+@app.route('/pruebas', methods=["POST"])
 def pruebas():
-    headings = {"Fecha de inicio", "Fecha final", "Descripcion"}
-    reser = [{'endDate': '2022-10-07 19:00:00.0', 'startDate': '2022-10-07 11:00:00.0', 'contentname': 'Licencia de Cisco Packet Tracer'}, {'endDate': '2022-10-09 18:00:00.0', 'startDate': '2022-10-09 12:00:00.0', 'contentname': 'Microsoft de PowerPoint'}, {'endDate': '2022-10-14 00:00:00.0', 'startDate': '2022-10-11 00:00:00.0', 'contentname': 'Microsoft de Word'}]
-    return render_template("activas.html", headings=headings, data=reser)
+    body = request.get_json()
+    sendEmailConfirm(body["email"])
+    return "EmailSend"
+
 '''
 @app.route('/pruebas')
 def pruebas():
@@ -481,7 +527,16 @@ def user_crud():
         if (userdata["admin"] == 1):
             return render_template("adminUsers.html")
         return "<h1>Sorry, this view is only for admins</h1>"
-    return redirect(url_for("index"))    
+    return redirect(url_for("index"))
+
+@app.route('/crud/content')
+def content_crud():
+    if jwtValidated(request.cookies.get("jwt")):
+        userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
+        if (userdata["admin"] == 1):
+            return render_template("adminContent.html")
+        return "<h1>Sorry, this view is only for admins</h1>"
+    return redirect(url_for("index"))  
         
 @app.route('/calender')
 def calender():
@@ -489,7 +544,7 @@ def calender():
         return render_template("calender.html")
     return redirect(url_for("registro"))
 
-@app.route('/codigo.html')
+@app.route('/codigo')
 def codigo():
     if jwtValidated(request.cookies.get("jwt")):
         return render_template("codigo.html")
@@ -497,15 +552,11 @@ def codigo():
 
 @app.route('/confirmacion')
 def confirmacion():
-    if jwtValidated(request.cookies.get("jwt")):
-        return render_template("confirmacion.html")
-    return redirect(url_for("registro"))
+    return render_template("confirmacion.html")
 
 @app.route('/error')
 def error():
-    if jwtValidated(request.cookies.get("jwt")):
-        return render_template("error.html")
-    return redirect(url_for("registro"))
+    return render_template("error.html")
 
 headings = {"Fecha de inicio", "Descripción", "Tiempo usado"}
 @app.route('/historial')
