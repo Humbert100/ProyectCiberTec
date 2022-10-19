@@ -31,8 +31,8 @@ bcrypt = Bcrypt(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8412@localhost/ctdb.db'
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
-#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
+#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
+app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
 #Creamos llave secreta
 app.config['SECRET_KEY'] = 'COOLDUDE'
 #Se inicializa la base de datos 
@@ -420,8 +420,6 @@ def pruebas():
     headings = {"Fecha de inicio", "Fecha final", "Descripcion"}
     reser = [{'endDate': '2022-10-07 19:00:00.0', 'startDate': '2022-10-07 11:00:00.0', 'contentname': 'Licencia de Cisco Packet Tracer'}, {'endDate': '2022-10-09 18:00:00.0', 'startDate': '2022-10-09 12:00:00.0', 'contentname': 'Microsoft de PowerPoint'}, {'endDate': '2022-10-14 00:00:00.0', 'startDate': '2022-10-11 00:00:00.0', 'contentname': 'Microsoft de Word'}]
     return render_template("activas.html", headings=headings, data=reser)
-
-
 '''
 @app.route('/pruebas')
 def pruebas():

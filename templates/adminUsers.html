@@ -5,14 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
         <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='styles/crud_style.css') }}">
+        <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='styles/styles.css') }}">
         <script src="{{url_for('static', filename='scripts/anime-master/anime-master/lib/anime.min.js') }}"></script>
     </head>
     <body>
-        <div class="navbar" id="navbar_id">
-            <p>CYBERTEC</p>
-        </div>
-
-        <div>
+        <div class="backgroundregister">
+            <img src="{{ url_for('static',filename='resources/Logo.png') }}" alt="">
+            <h1>CYBERTEC</h1>
+            
             <div class="div_list_users" id="div_list_users_id">
 
                 <div class="single_row_label" id="single_row_label_id">
@@ -26,10 +26,9 @@
                     <div><p>Save</p></div>
                     <div><p>Edit</p></div>
                 </div>
-        
             </div>
+        </div>
 
             <script src="{{ url_for('static',filename='scripts/user_crud_func.js') }}"></script>
-        </div>
     </body>
 </html>
