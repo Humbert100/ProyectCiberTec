@@ -36,6 +36,7 @@ main{
 
 .main p{
     font-size: 18px;
+    margin-top: 320px;
 }
 
 .main a{
@@ -97,7 +98,7 @@ main{
 }
 
 .principal{
-    background-image: url('/static/resources/inicio.png');
+    background-image: url('/static/resources/principalexterior.JPG');
     background-repeat: no-repeat;
     background-size:cover;
     height: 600px;
@@ -238,49 +239,59 @@ main{
 }
 
 .background1{
-  background-image: url('/static/resources/hubcyber.png');
+  background-image: url('/static/resources/propaganda.jpeg');
   background-size: cover;
   height:400px;
 }
 
 .background2{
-  background-image: url('/static/resources/escudo.png');
+  background-image: url('/static/resources/laboratorio.JPG');
   background-size: cover;
   height:400px;
 }
 
 .background3{
-  background-image: url('/static/resources/world.png');
+  background-image: url('/static/resources/sala.JPG');
+  background-size: cover;
+  height:400px;
+}
+
+.background4{
+  background-image: url('/static/resources/IOT.jpeg');
   background-size: cover;
   height:400px;
 }
 
 .background1 p,
 .background2 p,
-.background3 p{
-  color: var(--primario);
+.background3 p,
+.background4 p{
+  color: var(--negro);
   text-align: left;
 }
 
 .background1 h2,
 .background2 h2,
-.background3 h2{
-  color: var(--primario);
+.background3 h2,
+.background4 h2{
+  color: var(--negro);
   margin-top: 180px;
   text-align:left;
 }
 
 .background1 a,
 .background2 a,
-.background3 a{
+.background3 a,
+.background4 a{
   text-decoration: none;
-  color: var(--primario);
+  color: var(--negro);
 }
 
 .background1 li,
 .background2 li,
-.background3 li {
-  color: var(--primario);
+.background3 li,
+.background4 li {
+  color: var(--negro);
   left: 900px;
   list-style-type: none;
   text-align: left;
@@ -327,7 +338,8 @@ h2{
 }
 
 .header p{
-  color: var(--primario);
+  color: var(--negro);
+  font-size: 20px;
 }
 
 /* Dropdown Button */
@@ -559,7 +571,7 @@ h2{
   padding: 18px;
   font-size: 18px;
   margin-top: 20px;
-  margin-left: 25px;
+  margin-left: 20px;
   border: none;
   cursor: pointer;
 }
@@ -750,7 +762,7 @@ h2{
     padding: 18px;
     font-size: 18px;
     margin-top: 20px;
-    margin-left: 25px;
+    margin-left: 20px;
     border: none;
     cursor: pointer;
   }
@@ -869,7 +881,7 @@ h2{
   padding: 18px;
   font-size: 18px;
   margin-top: 50px;
-  margin-left: 160px;
+  margin-left: 25px;
   border: none;
   cursor: pointer;
 }
@@ -1210,7 +1222,7 @@ h2{
 }
 
 .background{
-  background-image: url('/static/resources/hubcyber.png');
+  background-image: url('/static/resources/entrada.jpg');
   background-size: contain;
   background-repeat: no-repeat;
   height:260px;
