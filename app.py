@@ -322,7 +322,7 @@ def get_all_users():
 
 @app.route("/getall/content", methods=["POST"])
 def get_all_content():
-    allContent = db.session.query(Content).with_entities(Content.id, Content.name, Content.type, Content.description).all()
+    allContent = db.session.query(Content).with_entities(Content.id, Content.name, Content.type, Content.description, Content.available).all()
     the_contents = {}
     print(allContent)
     counter = 0
@@ -331,6 +331,7 @@ def get_all_content():
                                                 "name":             i["name"],
                                                 "type":             i["type"],
                                                 "description":      i["description"],
+                                                "available":        i["available"]
         }
         counter += 1
     return the_contents
@@ -438,9 +439,12 @@ def update_user_data_admin():
     return json.dumps({"confirmation": "True"})
 
 
-@app.route("/historial/app/<id>", methods=["GET"])
-def app_historial(id):
-    userReservations = Reservations.query.filter(Reservations.userId == id).filter(Reservations.finish == 1)
+@app.route("/historial/app", methods=["POST"])
+def app_historial():
+    body = request.get_json()
+    #userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
+    userdata = jwt.decode(body["JWT"], TheKey, algorithms="HS256")
+    userReservations = Reservations.query.filter(Reservations.userId == userdata["id"]).filter(Reservations.finish == 1).order_by(desc(Reservations.id)).limit(5).all()
     reservation_schema = reservationSchema(many=True)
     reservation_schema = reservation_schema.dumps(userReservations)
     reser = json.loads(reservation_schema)
@@ -448,16 +452,31 @@ def app_historial(id):
     for i in reser:
         content = Content.query.filter(Content.id == i["id"]).first()
         i.pop("id")
+        i.pop("finish")
+        i["total"] = int(getHours(i["startDate"], i["endDate"]))
+        i.pop("endDate")
         contn = json.loads(content_schema.dumps(content))
         i["contentname"] = str(contn["name"])
-        totalhours = getHours(i["startDate"], i["endDate"])
-        i.pop("endDate")
-        i.pop("finish")
-        i["total"] = int(totalhours)
-    print(reser)
     return(reser)
 
-
+@app.route("/reservas/user/app", methods=["POST"])
+def app_reservaciones_usuario():
+    body = request.get_json()
+    #userdata = jwt.decode(request.cookies.get('jwt'), TheKey, algorithms="HS256")
+    userdata = jwt.decode(body["JWT"], TheKey, algorithms="HS256")
+    userReservations = Reservations.query.filter(Reservations.userId == userdata["id"]).filter(Reservations.finish == 0).order_by(desc(Reservations.id)).limit(5).all()
+    reservation_schema = reservationSchema(many=True)
+    reservation_schema = reservation_schema.dumps(userReservations)
+    reser = json.loads(reservation_schema)
+    content_schema = contentSchema()
+    for i in reser:
+        content = Content.query.filter(Content.id == i["id"]).first()
+        i.pop("id")
+        i.pop("finish")
+        contn = json.loads(content_schema.dumps(content))
+        i["contentname"] = str(contn["name"])
+        i["contentType"] = str(contn["type"])
+    return(reser)
 
 @app.route('/pruebas', methods=["POST"])
 def pruebas():
@@ -516,7 +535,7 @@ def ayuda():
 
 @app.route('/prueba/crud')
 def user_crud_prueba():
-    return render_template("adminContent.html")
+    return render_template("adminUsers.html")
 
 
 @app.route('/crud/users')
@@ -622,7 +641,6 @@ def reservaciones_activas():
             i.pop("finish")
             contn = json.loads(content_schema.dumps(content))
             i["contentname"] = str(contn["name"])
-        numReser = len(reser)
         return render_template("activas.html", data=reser, headings=headings)
     return redirect(url_for("registro"))
 
@@ -654,6 +672,6 @@ def reservahome():
         allcont = [json.loads(contentFis), json.loads(contenthard), json.loads(contentsoft)]
     return redirect(url_for("registro"))
 
-if __name__ == '__main__':
+if __name__ == '_main_':
     app.debug = True
     app.run()
