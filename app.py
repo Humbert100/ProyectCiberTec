@@ -480,9 +480,16 @@ def app_reservaciones_usuario():
 
 @app.route('/pruebas', methods=["POST"])
 def pruebas():
+<<<<<<< Updated upstream
     body = request.get_json()
     sendEmailConfirm(body["email"])
     return "EmailSend"
+=======
+    headings = {"Fecha y hora de entrega", "Fecha y hora de inicio", "Descripción"}
+    reser = [{'endDate': '2022-10-07 19:00:00.0', 'startDate': '2022-10-07 11:00:00.0', 'contentname': 'Licencia de Cisco Packet Tracer'}, {'endDate': '2022-10-09 18:00:00.0', 'startDate': '2022-10-09 12:00:00.0', 'contentname': 'Microsoft de PowerPoint'}, {'endDate': '2022-10-14 00:00:00.0', 'startDate': '2022-10-11 00:00:00.0', 'contentname': 'Microsoft de Word'}]
+    return render_template("activas.html", headings=headings, data=reser)
+
+>>>>>>> Stashed changes
 
 '''
 @app.route('/pruebas')

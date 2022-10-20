@@ -82,6 +82,7 @@
                     </button>
         
                     <div class="carousel__lista">
+                      {% for row in data %}
                         <div class="carousel__elemento">
                                 <div class="background">
                                     <div class="header">
@@ -91,10 +92,12 @@
                                             <path d="M10 10l4 4m0 -4l-4 4" />
                                           </svg>
                                     </div>
-                                    <p>Licencia</p>
-                                    <p>12/23/2022</p>
+                                    {% for cell in row %}
+                                    <p>{{ row[cell] }}</p>
+                                    {% endfor %}
                                 </div>
                         </div>
+                        {% endfor %}
                         
                         <div class="carousel__elemento">
                             <div class="background">
