@@ -1941,3 +1941,133 @@ h2{
   }
 }
 
+/*CONFIRMACION DE RESERVACION*/
+
+.backgroundconf img{
+  width: 150px;
+  margin-left: 100px;
+  margin-top: -190px;
+  position: absolute;
+}
+
+.backgroundconf h1{
+  font-family: 'Share Tech', sans-serif;
+  position: absolute;
+  margin-left: 260px;
+  margin-top: -130px;
+}
+
+.regresar input[type=button]{
+  width: 10%;
+  border-radius: .6rem;
+  padding: 10px;
+  font-size: 28px;
+  margin-top: 50px;
+  margin-left: 406px;
+  margin-bottom: -40px;
+  border: none;
+  cursor: pointer;
+  display: flex;  
+}
+
+.admin1 input[type=button]{
+  width: 22%;
+  border-radius: .6rem;
+  padding: 24px;
+  font-size: 26px;
+  margin-top: 49px;
+  margin-left: 273px;
+  margin-bottom: -100px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+}
+
+.admin2 input[type=button]{
+  width: 22%;
+  border-radius: .6rem;
+  padding: 24px;
+  font-size: 26px;
+  margin-top: 200px;
+  margin-left: 273px;
+  margin-bottom: -40px;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+}
+
+#firsta{
+  background: var(--etexto);
+  color: var(--primario);
+  font-weight: 600;
+  margin-left: 100px;
+  width: 80px;
+  padding: 12px;
+  opacity: .9;
+}
+
+@media (min-width: 1000px){
+
+  .backgroundconf img{
+    width: 200px;
+    margin-left: 100px;
+    margin-top: -190px;
+    position: fixed;
+  }
+  
+  .backgroundconf h1{
+    font-family: 'Share Tech', sans-serif;
+    position: fixed;
+    margin-left: 310px;
+    margin-top: -110px;
+  }
+
+  .regresar input[type=button]{
+    width: 1%;
+    border-radius: .6rem;
+    padding: 16px;
+    font-size: 20px;
+    margin-top: 50px;
+    margin-left: 840px;
+    margin-bottom: -40px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+  }
+
+  .admin1 input[type=button]{
+    width: 12%;
+    border-radius: .6rem;
+    padding: 55px;
+    font-size: 35px;
+    margin-top: 49px;
+    margin-left: 273px;
+    margin-bottom: -100px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+  }
+
+  .admin2 input[type=button]{
+    width: 12%;
+    border-radius: .6rem;
+    padding: 55px;
+    font-size: 35px;
+    margin-top: -48px;
+    margin-left: 690px;
+    margin-bottom: -40px;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  #firsta{
+    background: var(--etexto);
+    color: var(--primario);
+    font-weight: 600;
+    margin-left: 115px;
+    width: 100px;
+    padding: 16px;
+    opacity: .9;
+  }
+}

@@ -62,9 +62,9 @@ p{
 }
 
 .div_list_users div div{
-   display: flex;
+   display: inline-flex;
    flex-direction: row;
-   width: 100vw;
+   width: 6vw;
 }
 
 .div_list_users div div select{

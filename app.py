@@ -23,8 +23,8 @@ bcrypt = Bcrypt(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.db'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8412@localhost/ctdb.db'
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
-#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
+#app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://postgres:8412@localhost:5432/cybertecdb'
+app.config['SQLALCHEMY_DATABASE_URI']  = 'postgresql://ijnatwzdlljnqr:4932ae038700539057441391fb51080a3a5c0151b3516b5690b06cecf923d49a@ec2-3-214-2-141.compute-1.amazonaws.com:5432/da670sf7r9h0kh'
 #Creamos llave secreta
 app.config['SECRET_KEY'] = 'COOLDUDE'
 #Se inicializa la base de datos 
@@ -322,7 +322,7 @@ def get_all_users():
 
 @app.route("/getall/content", methods=["POST"])
 def get_all_content():
-    allContent = db.session.query(Content).with_entities(Content.id, Content.name, Content.type, Content.description, Content.available).all()
+    allContent = db.session.query(Content).with_entities(Content.id, Content.name, Content.type, Content.description).all()
     the_contents = {}
     print(allContent)
     counter = 0
@@ -330,8 +330,7 @@ def get_all_content():
         the_contents[f"content_{counter}"] =   {"id":               i["id"],
                                                 "name":             i["name"],
                                                 "type":             i["type"],
-                                                "description":      i["description"],
-                                                "available":        i["available"]
+                                                "description":      i["description"]
         }
         counter += 1
     return the_contents
@@ -533,10 +532,21 @@ def ayuda():
         return render_template("ayuda.html")
     return redirect(url_for("registro"))
 
-@app.route('/prueba/crud')
-def user_crud_prueba():
+@app.route('/prueba/historial')
+def historal():
+    return render_template("historial.html")
+
+@app.route('/prueba/activas')
+def activas():
+    return render_template("activas.html")
+
+@app.route('/prueba/adminuser')
+def adminuser():
     return render_template("adminUsers.html")
 
+@app.route('/prueba/admincontent')
+def admincontent():
+    return render_template("adminContent.html")    
 
 @app.route('/crud/users')
 def user_crud():
@@ -568,13 +578,27 @@ def codigo():
         return render_template("codigo.html")
     return redirect(url_for("registro"))
 
+@app.route('/reservacion')
+def reservacion():
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("reservahome.html")
+    return redirect(url_for("registro"))
+
 @app.route('/confirmacion')
 def confirmacion():
     return render_template("confirmacion.html")
 
+@app.route('/confirmacionreserva')
+def confirmacionreserva():
+    return render_template("confirmacionreserva.html")    
+
 @app.route('/error')
 def error():
     return render_template("error.html")
+
+@app.route('/administrador')
+def administrador():
+    return render_template("administrador.html")    
 
 headings = {"Fecha de inicio", "Descripción", "Tiempo usado"}
 @app.route('/historial')
@@ -617,14 +641,14 @@ def registro():
         return redirect(url_for("homepage"))
     return render_template("registro.html")
 
-@app.route('/reservacionfis')
-def reservacionfis():
-    body = request.get_json()
-    res = Reservations.query.filter(Reservations.startDate == body.get("Date")).filter(Reservations.contentId == body.get("content")).with_entities(Reservations.startHour, Reservations.endHour, Content.name)
-    reservation_schema = reservationSchema(many=True)
-    if jwtValidated(request.cookies.get("jwt")):
-        return render_template("reservacionfis.html")
-    return redirect(url_for("registro"))
+# @app.route('/prueba/reservacionfis')
+# def reservacionfis():
+#     body = request.get_json()
+#     res = Reservations.query.filter(Reservations.startDate == body.get("Date")).filter(Reservations.contentId == body.get("content")).with_entities(Reservations.startHour, Reservations.endHour, Content.name)
+#     reservation_schema = reservationSchema(many=True)
+#     if jwtValidated(request.cookies.get("jwt")):
+#         return render_template("reservacionfis.html")
+#     return redirect(url_for("registro"))
 
 @app.route('/activas')
 def reservaciones_activas():
@@ -644,6 +668,11 @@ def reservaciones_activas():
         return render_template("activas.html", data=reser, headings=headings)
     return redirect(url_for("registro"))
 
+@app.route('/reservacionfis')
+def reservacionfis():
+    if jwtValidated(request.cookies.get("jwt")):
+        return render_template("reservacionfis.html")
+    return redirect(url_for("registro"))
 
 @app.route('/reservacionhard')
 def reservacionhard():
@@ -657,20 +686,20 @@ def reservacionsoft():
         return render_template("reservacionsoft.html")
     return redirect(url_for("registro"))
 
-@app.route('/reservahome')
-def reservahome():
-    cont = Content.query.all()
-    content_schema = contentSchema(many=True)
-    if jwtValidated(request.cookies.get("jwt")):
-        contentFis  = Content.query.filter(Content.type == "EF")
-        contenthard = Content.query.filter(Content.type == "hardware")
-        contentsoft = Content.query.filter(Content.type == "software")
-        content_schema = contentSchema(many=True)
-        contentFis = content_schema.dumps(contentFis)
-        contenthard = content_schema.dumps(contenthard)
-        contentsoft = content_schema.dumps(contentsoft)
-        allcont = [json.loads(contentFis), json.loads(contenthard), json.loads(contentsoft)]
-    return redirect(url_for("registro"))
+# @app.route('/reservahome')
+# def reservahome():
+#     cont = Content.query.all()
+#     content_schema = contentSchema(many=True)
+#     if jwtValidated(request.cookies.get("jwt")):
+#         contentFis  = Content.query.filter(Content.type == "EF")
+#         contenthard = Content.query.filter(Content.type == "hardware")
+#         contentsoft = Content.query.filter(Content.type == "software")
+#         content_schema = contentSchema(many=True)
+#         contentFis = content_schema.dumps(contentFis)
+#         contenthard = content_schema.dumps(contenthard)
+#         contentsoft = content_schema.dumps(contentsoft)
+#         allcont = [json.loads(contentFis), json.loads(contenthard), json.loads(contentsoft)]
+#     return redirect(url_for("registro"))
 
 if __name__ == '_main_':
     app.debug = True
