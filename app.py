@@ -667,6 +667,7 @@ def reservaciones_activas():
             i["contentname"] = str(contn["name"])
         return render_template("activas.html", data=reser, headings=headings)
     return redirect(url_for("registro"))
+    
 
 @app.route('/reservacionfis')
 def reservacionfis():

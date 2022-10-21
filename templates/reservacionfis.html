@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300&family=Cormorant+Unicase:wght@300&family=Cute+Font&family=Dongle:wght@300&family=Katibeh&family=Krub:wght@700&family=Libre+Baskerville:wght@700&family=Orbitron&family=Truculenta:opsz,wght@12..72,200&display=swap" rel="stylesheet">
     <link rel="preload" href="{{ url_for('static',filename='styles/styles.css') }}" as="style">
     <link rel="stylesheet" href="{{ url_for('static',filename='styles/styles.css') }}">
+    <script type="text/javascript" src="{{ url_for('static',filename='scripts/procces_user_data.js') }}"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1.7.7/glider.min.css">
 </head>
 <body>
@@ -72,7 +73,7 @@
               </tr>
             </table>
             <div class="sesion">
-              <input type="button" id="first" value="Reservar" onclick="location.href='/confirmacionreserva';">
+              <input type="button" id="first" value="Reservar" onclick="process_fisico();">
           </div>
           </div>
         </div>

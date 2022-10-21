@@ -359,6 +359,7 @@ h2{
   justify-content:space-between;
 }
 
+
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
   display: none;
@@ -370,6 +371,15 @@ h2{
   margin-left: 120px;
 }
 
+.dropdown-contentactivas {
+  display: none;
+  position: fixed;
+  background-color: var(--secundario);
+  min-width: 196px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  margin-left: 120px;
+}
 /* Links inside the dropdown */
 .dropdown-content a {
   color: var(--primario);
@@ -378,8 +388,19 @@ h2{
   display: block;
 }
 
+.dropdown-contentactivas a {
+  color: var(--primario);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {
+  background-color: rgb(190, 187, 187);
+}
+
+.dropdown-contentactivas a:hover {
   background-color: rgb(190, 187, 187);
 }
 
