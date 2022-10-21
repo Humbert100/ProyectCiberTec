@@ -364,10 +364,10 @@ h2{
   display: none;
   position: fixed;
   background-color: var(--secundario);
-  min-width: 160px;
+  min-width: 196px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
-  margin-left: -85px;
+  margin-left: 120px;
 }
 
 /* Links inside the dropdown */
@@ -1229,14 +1229,14 @@ h2{
 }
 
 .backgroundtwo{
-  background-image: url('/static/resources/escudo.png');
+  background-image: url('/static/resources/entrada.jpg');
   background-size: contain;
   background-repeat: no-repeat;
   height:260px;
 }
 
 .backgroundthree{
-  background-image: url('/static/resources/world.png');
+  background-image: url('/static/resources/entrada.jpg');
   background-size: contain;
   background-repeat: no-repeat;
   height:260px;
@@ -1244,7 +1244,7 @@ h2{
 }
 
 .backgroundfour{
-  background-image: url('/static/resources/confirmacion.png');
+  background-image: url('/static/resources/entrada.jpg');
   background-size: contain;
   background-repeat: no-repeat;
   height:260px;
@@ -1252,7 +1252,7 @@ h2{
 }
 
 .backgroundfive{
-  background-image: url('/static/resources/reservahome.png');
+  background-image: url('/static/resources/entrada.jpg');
   background-size: contain;
   background-repeat: no-repeat;
   height:260px;
@@ -1276,11 +1276,11 @@ h2{
   justify-content:space-between;
 }
 
-.background a,
-.backgroundtwo a,
-.backgroundthree a,
-.backgroundfour a,
-.backgroundfive a{
+.carousel__lista a,
+.carousel__listatwo a,
+.carousel__listathree a,
+.carousel__listafour a,
+.carousel__listafive a{
   text-decoration: none;
   color: var(--primario);
 }
@@ -2069,5 +2069,15 @@ h2{
     width: 100px;
     padding: 16px;
     opacity: .9;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: fixed;
+    background-color: var(--secundario);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin-left: -235px;
   }
 }
